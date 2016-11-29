@@ -1,8 +1,5 @@
 #include "blit.h"
-int main(){
-	blit_test();
-	return 0;
-}
+
 void blit_test(){
 	img* a = blit_gen(5,9,5);
 	img* b = blit_gen(3,10);
