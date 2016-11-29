@@ -21,4 +21,5 @@ img* blit_gen(int w, int h);
 img* blit_gen(int w, int h, int base);
 img* blit_con(img* a, img* b);
 img* blit_frac(img* a, img* b);
+img* blit_power(img* a, img* b);
 #endif
