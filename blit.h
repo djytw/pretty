@@ -20,6 +20,7 @@ void blit_blit(img* dst, img* src, int x, int y);
 img* blit_gen(int w, int h);
 img* blit_gen(int w, int h, int base);
 img* blit_con(img* a, img* b);
+img* blit_con(img* a, img* b, int offset);
 img* blit_frac(img* a, img* b);
 img* blit_power(img* a, img* b);
 #endif
