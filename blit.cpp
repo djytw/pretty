@@ -1,17 +1,12 @@
 #include "blit.h"
-int main(){
-	blit_test();
-	return 0;
-}
+
 void blit_test(){
-	img* a = blit_gen(5,9);
-	img* b = blit_gen(3,15,2);
-	img* frac = blit_frac(a,b);
-	img* ans = blit_con(a,frac);
-	frac=blit_frac(a,ans);
-	ans=blit_con(frac,ans);
+	img* a = blit_gen(5,9,5);
+	img* b = blit_gen(3,10);
+	img* frac = blit_power(a,b);
+	img* ans = blit_con(frac,b);
 	blit_cdraw(ans);
-	blit_freeimg(a,b,ans,frac,0);
+	blit_freeimg(a,b,frac,ans,0);
 }
 img* blit_createimg(int w, int h){
 	return blit_createimg(w, h, 0);
@@ -85,5 +80,11 @@ img* blit_frac(img* a, img* b){
 	blit_blit(ret,b,(ret->w-b->w)/2,a->h+3);
 	int i;
 	for(i=0;i<ret->w;i++)ret->data[a->h+1][i]=1;
+	return ret;
+}
+img* blit_power(img* a, img* b){
+	img* ret=blit_createimg(a->w+b->w,a->h+b->h-4,b->h-4+a->base);
+	blit_blit(ret,a,0,b->h-4);
+	blit_blit(ret,b,a->w,0);
 	return ret;
 }
