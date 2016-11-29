@@ -87,3 +87,11 @@ img* blit_frac(img* a, img* b){
 	for(i=0;i<ret->w;i++)ret->data[a->h+1][i]=1;
 	return ret;
 }
+img* blit_power(img* a, img* b){
+	img* ret=blit_createimg(max(a->w,b->w)+2,a->h+b->h+3,a->h-3);//TODO -- base=a->h+1-fontheight/2
+	blit_blit(ret,a,(ret->w-a->w)/2,0);
+	blit_blit(ret,b,(ret->w-b->w)/2,a->h+3);
+	int i;
+	for(i=0;i<ret->w;i++)ret->data[a->h+1][i]=1;
+	return ret;
+}
