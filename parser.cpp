@@ -12,6 +12,7 @@ int main(){
 	img* ans=parse(str);
 	blit_cdraw(ans);
 	blit_freeimg(ans);
+	printf("x:%d y:%d H:%d\tfinal:%p curimg:%p\n",cursorx,cursory,cursorh,ans,cursorimg);
 	return 0;
 }
 #define NUMBER 0
@@ -28,6 +29,8 @@ int ttype(char c){
 	if(c=='|')return CURSOR;
 	return CONST;
 }
+img* cursorimg=0;
+int cursorx,cursory,cursorh;
 img* parse(char* str){
 	int i,l;
 	img *final,*tmp_0, *tmp_1, *t, *_t;
@@ -43,6 +46,12 @@ img* parse(char* str){
 	//case ^ , put power(tmp_0,parse) to tmp_1
 	for(i=0;i<l;i++){
 		switch(ttype(str[i])){
+			case CURSOR:
+			cursorx=tmp_0->w;
+			cursory=0;
+			cursorh=tmp_0->h;
+			cursorimg=tmp_0;
+			break;
 			case NUMBER:
 			case CONST:
 			t=blit_gen(5,9);//TODO -- gen a font glyph
@@ -83,7 +92,7 @@ img* parse(char* str){
 			}else{
 				int j;
 				for(j=i;j<l;j++){
-					if(ttype(str[j])!=CONST&&ttype(str[j])!=NUMBER)
+					if(ttype(str[j])!=CONST&&ttype(str[j])!=NUMBER&&ttype(str[j])!=CURSOR)
 						break;
 				}
 				char *s;
@@ -126,7 +135,7 @@ img* parse(char* str){
 				else{
 					int j;
 					for(j=i;j<l;j++)
-						if(ttype(str[j])!=CONST&&ttype(str[j])!=NUMBER)
+						if(ttype(str[j])!=CONST&&ttype(str[j])!=NUMBER&&ttype(str[j])!=CURSOR)
 							break;
 					char *s;
 					s=(char*)malloc(sizeof(char)*(j-i+1));

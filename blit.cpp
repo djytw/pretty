@@ -62,6 +62,11 @@ void blit_blit(img* dst, img* src, int x, int y){
 	for(i=0;i<src->w&&i+x<dst->w;i++)
 		for(j=0;j<src->h&&j+y<dst->h;j++)
 			dst->data[y+j][x+i]=src->data[j][i];
+	if(cursorimg==src){
+		cursorx+=x;
+		cursory+=y;
+		cursorimg=dst;
+	}
 }
 img* blit_gen(int w, int h){
 	return blit_gen(w,h,0);
