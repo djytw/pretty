@@ -19,12 +19,13 @@ int main(){
 #define OPERP 2
 #define OPERM 3
 #define OPERD 4
-
+#define CURSOR 5
 int ttype(char c){
 	if(isdigit(c))return NUMBER;
 	if(c=='+'||c=='-')return OPERP;
 	if(c=='*')return OPERM;
 	if(c=='/')return OPERD;
+	if(c=='|')return CURSOR;
 	return CONST;
 }
 img* parse(char* str){
