@@ -27,4 +27,8 @@ img* blit_power(img* a, img* b);
 //cursor
 extern img* cursorimg;
 extern int cursorx,cursory,cursorh;
+
+//font
+extern const char ascii[][16];
+img* font_gen(char c);
 #endif

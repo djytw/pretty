@@ -54,7 +54,7 @@ img* parse(char* str){
 			break;
 			case NUMBER:
 			case CONST:
-			t=blit_gen(5,9);//TODO -- gen a font glyph
+			t=font_gen(str[i]);//TODO -- gen a font glyph
 			_t=blit_con(tmp_0,t,1);
 			blit_freeimg(tmp_0,t,0);
 			tmp_0=_t;
