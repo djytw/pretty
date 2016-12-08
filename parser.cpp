@@ -4,11 +4,9 @@
 #include <string.h>
 img* parse(char* str);
 int ttype(char c);
-int main(){
+int parser_test(){
 	//char str[]="x - x**3/6 + O(x**5)";
-	char str[100];
 	scanf("%s",str);
-	printf("%d\n",ttype('x'));
 	img* ans=parse(str);
 	blit_cdraw(ans);
 	blit_freeimg(ans);

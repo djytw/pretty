@@ -32,3 +32,6 @@ extern int cursorx,cursory,cursorh;
 extern const char ascii[][16];
 img* font_gen(char c);
 #endif
+
+//global
+extern char str[256];
