@@ -55,3 +55,4 @@
 //#define KEY_ 54
 void insert(int posi,char c);
 void insert(int posi,char* s);
+
