@@ -53,3 +53,5 @@
 #define KEY_ALOCK 52
 //#define KEY_ 53
 //#define KEY_ 54
+void insert(int posi,char c);
+void insert(int posi,char* s);
