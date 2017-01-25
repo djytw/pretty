@@ -1,4 +1,5 @@
 #include "blit.h"
+#include "string.h"
 #define KEY_SHIFT 1
 #define KEY_ALPHA 2
 #define KEY_UP 3
@@ -55,4 +56,3 @@
 //#define KEY_ 54
 void insert(int posi,char c);
 void insert(int posi,char* s);
-

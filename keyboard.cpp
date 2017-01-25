@@ -27,7 +27,7 @@ void insert(int posi, char* s){
 		str[posi+i]=s[i];
 	}
 }
-int main(){
+/*int main(){
 	char keycode;
 	shift=alpha=alock=0;
 	str[0]='|';
@@ -65,7 +65,7 @@ int main(){
 			break;
 			case KEY_6:
 			insert(pos,'6');
-			break;	
+			break;
 			case KEY_7:
 			insert(pos,'7');
 			break;
@@ -79,4 +79,4 @@ int main(){
 		parser_test();
 	}
 }
-
+*/

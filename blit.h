@@ -23,7 +23,7 @@ img* blit_con(img* a, img* b);
 img* blit_con(img* a, img* b, int offset);
 img* blit_frac(img* a, img* b);
 img* blit_power(img* a, img* b);
-
+int parser_test();
 //cursor
 extern img* cursorimg;
 extern int cursorx,cursory,cursorh;
