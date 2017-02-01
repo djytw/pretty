@@ -2,12 +2,11 @@
 #include "blit.h"
 #include <ctype.h>
 #include <string.h>
-img* parse(char* str);
 int ttype(char c);
 int parser_test(){
 	char str[]="x - x**3/6 + O(x**5)";
 	scanf("%s",str);
-	img* ans=parse(str);
+	img* ans=parse(str,1);
 	gui_draw(ans);
 	blit_freeimg(ans);
 	printf("x:%d y:%d H:%d\tfinal:%p curimg:%p\n",cursorx,cursory,cursorh,ans,cursorimg);
@@ -29,14 +28,14 @@ int ttype(char c){
 }
 img* cursorimg=0;
 int cursorx,cursory,cursorh;
-img* parse(char* str){
+img* parse(char* str, bool bigfont){
 	int i,l;
 	img *final,*tmp_0, *tmp_1, *t, *_t;
 	final=blit_createimg(0,0);//TODO -- malloc(0)??
 	tmp_0=blit_createimg(0,0);
 	tmp_1=blit_createimg(0,0);
 	l=strlen(str);
-	printf("parse: str=%s,l=%d\n",str,l);
+	printf("parse: str=%s,l=%d, bigfont=%d\n",str,l,bigfont);
 	//case const/num , put it to tmp_0
 	//case * , put tmp_0 to tmp_1
 	//case +- , put tmp_0 to tmp_1 ,then put tmp_1 to final
@@ -52,7 +51,7 @@ img* parse(char* str){
 			break;
 			case NUMBER:
 			case CONST:
-			t=font_gen(str[i]);
+			t=font_gen(str[i],bigfont);
 			_t=blit_con(tmp_0,t);
 			blit_freeimg(tmp_0,t,0);
 			tmp_0=_t;
@@ -61,7 +60,7 @@ img* parse(char* str){
 			t=blit_con(tmp_1,tmp_0);
 			_t=blit_con(final,t);
 			blit_freeimg(final,t,tmp_0,tmp_1,0);
-			t=font_gen('+');
+			t=font_gen('+',bigfont);
 			final=blit_con(_t,t,1);
 			blit_freeimg(_t,t,0);
 			tmp_0=blit_createimg(0,0);
@@ -80,7 +79,7 @@ img* parse(char* str){
 				s=(char*)malloc(sizeof(char)*(j-i));
 				strncpy(s,&str[i+1],j-i-1);
 				s[j-i-1]=0;
-				t=parse(s);
+				t=parse(s,bigfont);
 				_t=blit_con(tmp_1,tmp_0);
 				blit_freeimg(tmp_1,tmp_0,0);
 				tmp_1=blit_frac(_t,t);
@@ -97,7 +96,7 @@ img* parse(char* str){
 				s=(char*)malloc(sizeof(char)*(j-i+1));
 				strncpy(s,&str[i],j-i);
 				s[j-i]=0;
-				t=parse(s);
+				t=parse(s,bigfont);
 				_t=blit_con(tmp_1,tmp_0);
 				blit_freeimg(tmp_1,tmp_0,0);
 				tmp_1=blit_frac(_t,t);
@@ -121,7 +120,7 @@ img* parse(char* str){
 					s=(char*)malloc(sizeof(char)*(j-i));
 					strncpy(s,&str[i+1],j-i-1);
 					s[j-i-1]=0;
-					t=parse(s);
+					t=parse(s,0);
 					_t=blit_power(tmp_0,t);
 					blit_freeimg(t,tmp_0,0);
 					t=blit_con(tmp_1,_t);
@@ -139,7 +138,7 @@ img* parse(char* str){
 					s=(char*)malloc(sizeof(char)*(j-i+1));
 					strncpy(s,&str[i],j-i);
 					s[j-i]=0;
-					t=parse(s);
+					t=parse(s,0);
 					_t=blit_power(tmp_0,t);
 					blit_freeimg(t,tmp_0,0);
 					t=blit_con(tmp_1,_t);
@@ -151,7 +150,7 @@ img* parse(char* str){
 			}else{
 				//mul
 				_t=blit_con(tmp_1,tmp_0);
-				t=font_gen('*');
+				t=font_gen('*',bigfont);
 				tmp_1=blit_con(_t,t,1);
 				blit_freeimg(t,_t,tmp_0,0);
 				tmp_0=blit_createimg(0,0);

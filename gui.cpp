@@ -5,16 +5,18 @@
 #include <string.h>
 #include "blit.h"
 FT_Library  library;
-img* font_gen(char c){
+img* font_gen(char c, bool bigfont){
+   int size;
+   bigfont?size=16:size=12;
    FT_Init_FreeType(&library);
    FT_Face face;
    FT_New_Face(library,"OpenSans-Regular.ttf",0,&face);
-   FT_Set_Pixel_Sizes(face,0,16);
+   FT_Set_Pixel_Sizes(face,0,size);
    FT_Load_Char(face,c,FT_LOAD_RENDER);
    FT_GlyphSlot slot=face->glyph;
    int i,j,p;
    FT_Bitmap *bitmap=&slot->bitmap;
-   img *ret=blit_createimg(slot->advance.x >> 6 ,16);
+   img *ret=blit_createimg(slot->advance.x >> 6 ,size);
    printf("char:%c advance.x=%ld bitmap_left=%d bitmap->width=%d\n",c,slot->advance.x>>6,slot->bitmap_left,bitmap->width);
    for(p=0,i=slot->bitmap_left;p<bitmap->width;i++,p++){
       for(j=0;j<bitmap->rows;j++){
@@ -32,7 +34,8 @@ img* font_gen(char c){
             ret->data[j][i]=0xFF;
       }
    }
-   ret->base=slot->bitmap_top;
+   ret->base=slot->bitmap_top-12;
+   printf("%d\n",ret->base);
    return ret;
 }
 void gui_draw(img* map){
