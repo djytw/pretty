@@ -2,3 +2,5 @@ bin/*
 pretty
 *.o
 !.gitignore
+ftdemo
+SDL
