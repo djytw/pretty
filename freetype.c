@@ -37,17 +37,18 @@ int main(){
    FT_Face face;
    FT_New_Face(library,"OpenSans-Regular.ttf",0,&face);
    //FT_Set_Char_Size(face,0,16,3000,3000 );
-   FT_Set_Pixel_Sizes(face,0,12);
+   FT_Set_Pixel_Sizes(face,0,16);
    FT_GlyphSlot slot=face->glyph;
    //FT_Render_Glyph( slot,FT_RENDER_MODE_MONO );
    int i,j;
    int penx=0,peny=16;
    //generate
-   char str[]="Abgf01";
+   char str[]="Abgfijk123";
    for(i=0;i<strlen(str);i++){
       FT_Load_Char(face,str[i],FT_LOAD_RENDER);
       draw_bitmap(&slot->bitmap,slot->bitmap_left+penx,peny-slot->bitmap_top);
       penx += slot->advance.x >> 6;
+      printf("char:%c advance.x=%ld bitmap_left=%d bitmap->width=%d\n",str[i],slot->advance.x>>6,slot->bitmap_left,slot->bitmap.width);
    }
    //draw picture
    for(i=0;i<128;i++)for(j=0;j<256;j++){

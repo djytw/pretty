@@ -1,4 +1,4 @@
 #include "blit.h"
 int main(){
-   parser_test();
+   while(1)parser_test();
 }

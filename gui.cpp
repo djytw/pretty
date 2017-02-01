@@ -12,13 +12,14 @@ img* font_gen(char c){
    FT_Set_Pixel_Sizes(face,0,16);
    FT_Load_Char(face,c,FT_LOAD_RENDER);
    FT_GlyphSlot slot=face->glyph;
-   img *ret=blit_createimg(slot->advance.x >> 6,16);
-   int i,j;
+   int i,j,p;
    FT_Bitmap *bitmap=&slot->bitmap;
-   for(i=0;i<bitmap->width;i++){
+   img *ret=blit_createimg(slot->advance.x >> 6 ,16);
+   printf("char:%c advance.x=%ld bitmap_left=%d bitmap->width=%d\n",c,slot->advance.x>>6,slot->bitmap_left,bitmap->width);
+   for(p=0,i=slot->bitmap_left;p<bitmap->width;i++,p++){
       for(j=0;j<bitmap->rows;j++){
          if(i<0||j<0||i>=ret->w||j>=ret->h)continue;
-         unsigned char a = bitmap->buffer[j*bitmap->width+i];
+         unsigned char a = bitmap->buffer[j*bitmap->width+p];
          //to 2bit gray:
          //00-2A -> 00 ; 2B-7F -> 55 ; 80-D4 -> AA ; D5-FF -> FF
          if(a<=0x2A)
@@ -31,6 +32,7 @@ img* font_gen(char c){
             ret->data[j][i]=0xFF;
       }
    }
+   ret->base=slot->bitmap_top;
    return ret;
 }
 void gui_draw(img* map){

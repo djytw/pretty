@@ -52,8 +52,8 @@ img* parse(char* str){
 			break;
 			case NUMBER:
 			case CONST:
-			t=font_gen(str[i]);//TODO -- gen a font glyph
-			_t=blit_con(tmp_0,t,1);
+			t=font_gen(str[i]);
+			_t=blit_con(tmp_0,t);
 			blit_freeimg(tmp_0,t,0);
 			tmp_0=_t;
 			break;
@@ -61,7 +61,7 @@ img* parse(char* str){
 			t=blit_con(tmp_1,tmp_0);
 			_t=blit_con(final,t);
 			blit_freeimg(final,t,tmp_0,tmp_1,0);
-			t=blit_gen(5,9);
+			t=font_gen('+');
 			final=blit_con(_t,t,1);
 			blit_freeimg(_t,t,0);
 			tmp_0=blit_createimg(0,0);
@@ -151,7 +151,7 @@ img* parse(char* str){
 			}else{
 				//mul
 				_t=blit_con(tmp_1,tmp_0);
-				t=blit_gen(5,9);
+				t=font_gen('*');
 				tmp_1=blit_con(_t,t,1);
 				blit_freeimg(t,_t,tmp_0,0);
 				tmp_0=blit_createimg(0,0);
