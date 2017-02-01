@@ -8,7 +8,7 @@ int parser_test(){
 	char str[]="x - x**3/6 + O(x**5)";
 	scanf("%s",str);
 	img* ans=parse(str);
-	blit_cdraw(ans);
+	gui_draw(ans);
 	blit_freeimg(ans);
 	printf("x:%d y:%d H:%d\tfinal:%p curimg:%p\n",cursorx,cursory,cursorh,ans,cursorimg);
 	return 0;

@@ -17,10 +17,10 @@ img* blit_createimg(int w, int h, int base){
 	ret->h=h;
 	ret->base=base;
 	if(w==0||h==0)return ret;
-	ret->data=(bool**)malloc(h*sizeof(bool*));
+	ret->data=(unsigned char**)malloc(h*sizeof(unsigned char*));
 	int i;
 	for(i=0;i<h;i++)
-	ret->data[i]=(bool*)calloc(w,sizeof(bool));
+	ret->data[i]=(unsigned char*)calloc(w,sizeof(unsigned char));
 	return ret;
 }
 void blit_freeimg(img* a){
@@ -54,7 +54,7 @@ void blit_cdraw(img* map){
 		for(j=0;j<map->w;j++){
 			map->data[i][j]==1?printf("+"):printf(" ");
 		}
-		printf("\n");		
+		printf("\n");
 	}
 }
 void blit_blit(img* dst, img* src, int x, int y){

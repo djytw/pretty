@@ -37,7 +37,7 @@ int main(){
    FT_Face face;
    FT_New_Face(library,"OpenSans-Regular.ttf",0,&face);
    //FT_Set_Char_Size(face,0,16,3000,3000 );
-   FT_Set_Pixel_Sizes(face,0,16);
+   FT_Set_Pixel_Sizes(face,0,12);
    FT_GlyphSlot slot=face->glyph;
    //FT_Render_Glyph( slot,FT_RENDER_MODE_MONO );
    int i,j;

@@ -7,7 +7,7 @@
 typedef struct img {
 	int w;
 	int h;
-	bool **data;
+	unsigned char **data;
 	int base;
 }img;
 void blit_test();
@@ -24,6 +24,7 @@ img* blit_con(img* a, img* b, int offset);
 img* blit_frac(img* a, img* b);
 img* blit_power(img* a, img* b);
 int parser_test();
+void gui_draw(img* map);
 //cursor
 extern img* cursorimg;
 extern int cursorx,cursory,cursorh;
@@ -31,7 +32,8 @@ extern int cursorx,cursory,cursorh;
 //font
 extern const char ascii[][16];
 img* font_gen(char c);
-#endif
 
 //global
 extern char str[256];
+
+#endif

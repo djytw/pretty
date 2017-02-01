@@ -1,14 +1,14 @@
-pretty : blit.o font.o keyboard.o main.o parser.o
-	g++ -o pretty blit.o font.o keyboard.o main.o parser.o
+pretty : blit.o keyboard.o main.o parser.o gui.o
+	g++ -o pretty blit.o keyboard.o main.o parser.o gui.o -lSDL2 -lfreetype
 blit.o : blit.cpp blit.h
-	g++ -c blit.cpp
-font.o : font.cpp blit.h
-	g++ -c font.cpp
+	g++ -c -g blit.cpp
 keyboard.o : keyboard.cpp keyboard.h blit.h
-	g++ -c keyboard.cpp
+	g++ -c -g keyboard.cpp
 main.o : main.cpp blit.h
-	g++ -c main.cpp
+	g++ -c -g main.cpp
 parser.o : parser.cpp blit.h
-	g++ -c parser.cpp
+	g++ -c -g parser.cpp
+gui.o : gui.cpp blit.h
+	g++ -c -g gui.cpp -I/usr/include/freetype2
 clean :
 	rm *.o pretty
