@@ -17,11 +17,11 @@ int main(){
    SDL_Renderer *r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED);
    TTF_Init();
    TTF_Font *font = TTF_OpenFont("OpenSans-Regular.ttf",16);
-   SDL_Color color={255,255,255};
+   SDL_Color color={0x7c,0x85,0x77};
    SDL_Surface *message1 = TTF_RenderText_Blended(font, "abcdefghijklmn123456", color);
    set_pixel(message1,0,1,0xffffffff);
    SDL_Rect re;
-   re.w=message1->w*8;re.h=message1->h*8;re.x=0;re.y=0;
+   re.w=message1->w*6;re.h=message1->h*6;re.x=0;re.y=0;
    SDL_Texture *t = SDL_CreateTextureFromSurface(r, message1);
    SDL_RenderCopy(r, t, NULL,&re);
    SDL_RenderPresent(r);
@@ -37,7 +37,7 @@ int main(){
              return 0;
           }
           if (e.type == SDL_MOUSEBUTTONDOWN){
-             printf("x:%d y:%d color:#%08X\n",e.button.x/8,e.button.y/8,get_pixel(message1,e.button.x/8,e.button.y/8));
+             printf("x:%d y:%d color:#%08X\n",e.button.x/6,e.button.y/6,get_pixel(message1,e.button.x/8,e.button.y/8));
           }
       }
       SDL_Delay(10);
