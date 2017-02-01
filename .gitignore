@@ -1,4 +1,5 @@
 bin/*
+trash/*
 pretty
 *.o
 !.gitignore

@@ -13,10 +13,19 @@ void draw_bitmap(FT_Bitmap *bitmap,int x, int y){
     for (j=y,q=0;j<y_max;j++,q++){
       if(i<0||j<0||i>=256||j>=128)continue;
       image[j][i] |= bitmap->buffer[q * bitmap->width + p];
+      //to 2bit gray:
+      //00-2A -> 00 ; 2B-7F -> 55 ; 80-D4 -> AA ; D5-FF -> FF
+      if(image[j][i]<=0x2A)
+         image[j][i]=0;
+      else if(image[j][i]<=0x7F)
+         image[j][i]=0x55;
+      else if(image[j][i]<=0xD4)
+         image[j][i]=0xAA;
+      else
+         image[j][i]=0xFF;
     }
   }
 }
-
 int main(){
    SDL_Init(SDL_INIT_VIDEO);
    SDL_Window *w = SDL_CreateWindow("ft test",0,0,1536,768, 0);
