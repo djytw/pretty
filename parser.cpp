@@ -4,12 +4,13 @@
 #include <string.h>
 int ttype(char c);
 int parser_test(){
+	print(5,"parser_test","Started. Enter a expression.");
 	char str[]="x - x**3/6 + O(x**5)";
 	scanf("%s",str);
 	img* ans=parse(str,1);
+	debug(1,"CURSOR","X:%d Y:%d H:%d\tfinal:%p curimg:%p",cursorx,cursory,cursorh,ans,cursorimg);
 	gui_draw(ans);
 	blit_freeimg(ans);
-	printf("x:%d y:%d H:%d\tfinal:%p curimg:%p\n",cursorx,cursory,cursorh,ans,cursorimg);
 	return 0;
 }
 #define NUMBER 0
@@ -35,7 +36,7 @@ img* parse(char* str, bool bigfont){
 	tmp_0=blit_createimg(0,0);
 	tmp_1=blit_createimg(0,0);
 	l=strlen(str);
-	printf("parse: str=%s,l=%d, bigfont=%d\n",str,l,bigfont);
+	debug(3,"PARSE","parse: str=%s,l=%d, bigfont=%d",str,l,bigfont);
 	//case const/num , put it to tmp_0
 	//case * , put tmp_0 to tmp_1
 	//case +- , put tmp_0 to tmp_1 ,then put tmp_1 to final

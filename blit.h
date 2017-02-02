@@ -27,15 +27,22 @@ int parser_test();
 img* parse(char* str, bool bigfont);
 void gui_draw(img* map);
 img* font_gen(char c,bool bigfont);
+void setdebug(int a);
+#define print(level, title, msg, ...) \
+	{debugtitle(level, title);\
+	 printf(msg, ##__VA_ARGS__);\
+	 printf("\n\e[0m\e[K");}
+#define debug(level, title, msg, ...)\
+	if(level<=DEBUG){debugtitle(level, title);\
+	printf(msg, ##__VA_ARGS__);\
+	printf("\n\e[0m\e[K");}
+void debugtitle(int level, const char *title);
 //cursor
 extern img* cursorimg;
 extern int cursorx,cursory,cursorh;
-
 //font
 extern const char ascii[][16];
-
-
 //global
 extern char str[256];
-
+extern int DEBUG;
 #endif

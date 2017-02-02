@@ -34,14 +34,16 @@ img* font_gen(char c, bool bigfont){
             ret->data[j][i]=0xFF;
       }
    }
-   printf("%c:%d,%d,%d\n",c,ret->w,ret->h,ret->base);
+   debug(2,"FONTGEN","\e[33m\e[1mCHAR:\e[0m%c \e[33m\e[1mW:\e[0m%d \e[33m\e[1mH:\e[0m%d \e[33m\e[1mBASE:\e[0m%d",c,ret->w,ret->h,ret->base);
    return ret;
 }
 void gui_draw(img* map){
+   int wi=map->w*6;
+   int hi=map->h*6;
    SDL_Init(SDL_INIT_VIDEO);
-   SDL_Window *w = SDL_CreateWindow("ft test",0,0,1536,768, 0);
+   SDL_Window *w = SDL_CreateWindow("PRETTY",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,wi,hi, 0);
    SDL_Renderer *r = SDL_CreateRenderer(w, -1,SDL_RENDERER_ACCELERATED);
-   SDL_Surface *s= SDL_CreateRGBSurface(0,1536,768,32,0,0,0,0);
+   SDL_Surface *s= SDL_CreateRGBSurface(0,wi,hi,32,0,0,0,0);
    SDL_FillRect(s,NULL,0xFF888888);
    SDL_Rect re;re.w=5;re.h=5;
    int i,j;
@@ -64,7 +66,7 @@ void gui_draw(img* map){
              return;
           }
           if (e.type == SDL_MOUSEBUTTONDOWN){
-             printf("x:%d y:%d color:%02X\n",e.button.x/6,e.button.y/6,map->data[e.button.y/6][e.button.x/6]);
+             debug(0,"CLICK","x:%d y:%d color:%02X",e.button.x/6,e.button.y/6,map->data[e.button.y/6][e.button.x/6]);
           }
       }
       SDL_Delay(10);

@@ -30,7 +30,6 @@ void blit_freeimg(img* a, img* b, ...){
 	va_start(ap,b);
 	img* t=va_arg(ap,img*);
 	while(t){
-		printf("freed\n");
 		blit_freeimg(t);
 		t=va_arg(ap,img*);
 	}
