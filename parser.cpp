@@ -89,6 +89,7 @@ img* parse(char* str, bool bigfont){
 			}else{
 				int j;
 				for(j=i;j<l;j++){
+					if(j<l-1&&str[j]=='*'&&str[j+1]=='*'){j++;continue;}
 					if(ttype(str[j])!=CONST&&ttype(str[j])!=NUMBER&&ttype(str[j])!=CURSOR)
 						break;
 				}

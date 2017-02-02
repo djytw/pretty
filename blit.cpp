@@ -1,13 +1,5 @@
 #include "blit.h"
 
-void blit_test(){
-	img* a = blit_gen(5,9,5);
-	img* b = blit_gen(3,10);
-	img* frac = blit_power(a,b);
-	img* ans = blit_con(frac,b);
-	blit_cdraw(ans);
-	blit_freeimg(a,b,frac,ans,0);
-}
 img* blit_createimg(int w, int h){//TODO -- handle 0,0 input for malloc(0) security issues
 	return blit_createimg(w, h, 0);
 }
@@ -68,16 +60,6 @@ void blit_blit(img* dst, img* src, int x, int y){
 		cursorimg=dst;
 	}
 }
-img* blit_gen(int w, int h){
-	return blit_gen(w,h,0);
-}
-img* blit_gen(int w, int h, int base){
-	img* ret=(blit_createimg(w,h,base));
-	int i;
-	for(i=0;i<h;i++){ret->data[i][0]=ret->data[i][w-1]=1;}
-	for(i=0;i<w;i++){ret->data[0][i]=ret->data[h-1][i]=1;}
-	return ret;
-}
 img* blit_con(img* a, img* b){
 	return blit_con(a,b,0);
 }
@@ -91,11 +73,11 @@ img* blit_con(img* a, img* b, int offset){
 	return ret;
 }
 img* blit_frac(img* a, img* b){
-	img* ret=blit_createimg(max(a->w,b->w)+2,a->h+b->h+3,a->h-3);//TODO -- base=a->h+1-fontheight/2
+	img* ret=blit_createimg(max(a->w,b->w)+2,a->h+b->h+2,a->h-6);
 	blit_blit(ret,a,(ret->w-a->w)/2,0);
 	blit_blit(ret,b,(ret->w-b->w)/2,a->h+3);
 	int i;
-	for(i=0;i<ret->w;i++)ret->data[a->h+1][i]=1;
+	for(i=0;i<ret->w;i++)ret->data[a->h][i]=0xff;
 	return ret;
 }
 img* blit_power(img* a, img* b){
