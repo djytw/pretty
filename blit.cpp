@@ -75,9 +75,9 @@ img* blit_con(img* a, img* b, int offset){
 img* blit_frac(img* a, img* b){
 	img* ret=blit_createimg(max(a->w,b->w)+2,a->h+b->h+2,a->h-6);
 	blit_blit(ret,a,(ret->w-a->w)/2,0);
-	blit_blit(ret,b,(ret->w-b->w)/2,a->h+3);
+	blit_blit(ret,b,(ret->w-b->w)/2,a->h+2);
 	int i;
-	for(i=0;i<ret->w;i++)ret->data[a->h][i]=0xff;
+	for(i=0;i<ret->w;i++)ret->data[a->h-1][i]=0xff;
 	return ret;
 }
 img* blit_power(img* a, img* b){

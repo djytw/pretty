@@ -7,7 +7,8 @@
 FT_Library  library;
 img* font_gen(char c, bool bigfont){
    int size,base;
-   bigfont?size=16,base=12:size=12,base=9;
+   if(bigfont){size=16;base=12;}
+   else{size=12;base=9;}
    FT_Init_FreeType(&library);
    FT_Face face;
    FT_New_Face(library,"OpenSans-Regular.ttf",0,&face);
@@ -17,7 +18,6 @@ img* font_gen(char c, bool bigfont){
    int i,j,p;
    FT_Bitmap *bitmap=&slot->bitmap;
    img *ret=blit_createimg(slot->advance.x >> 6 ,size+slot->bitmap_top-base,slot->bitmap_top-base);
-   printf("char:%c advance.x=%ld bitmap_left=%d bitmap->width=%d\n",c,slot->advance.x>>6,slot->bitmap_left,bitmap->width);
    for(p=0,i=slot->bitmap_left;p<bitmap->width;i++,p++){
       for(j=0;j<bitmap->rows;j++){
          if(i<0||j<0||i>=ret->w||j>=ret->h)continue;
@@ -34,6 +34,7 @@ img* font_gen(char c, bool bigfont){
             ret->data[j][i]=0xFF;
       }
    }
+   printf("%c:%d,%d,%d\n",c,ret->w,ret->h,ret->base);
    return ret;
 }
 void gui_draw(img* map){
