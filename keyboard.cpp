@@ -27,6 +27,9 @@ void insert(int posi, char* s){
 		str[posi+i]=s[i];
 	}
 }
+void key(int keycode){
+	
+}
 /*int main(){
 	char keycode;
 	shift=alpha=alock=0;

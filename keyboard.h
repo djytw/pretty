@@ -1,5 +1,6 @@
 #include "blit.h"
 #include "string.h"
+
 #define KEY_SHIFT 1
 #define KEY_ALPHA 2
 #define KEY_UP 3

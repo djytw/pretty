@@ -37,6 +37,7 @@ void setdebug(int a);
 	printf(msg, ##__VA_ARGS__);\
 	printf("\n\e[0m\e[K");}
 void debugtitle(int level, const char *title);
+void key(int keycode);
 //cursor
 extern img* cursorimg;
 extern int cursorx,cursory,cursorh;

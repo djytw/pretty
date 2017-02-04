@@ -58,17 +58,25 @@ void gui_draw(img* map){
    SDL_Event e; int a=0;
    while(1){
       while (SDL_PollEvent(&e)) {
-          if (e.type == SDL_WINDOWEVENT&&e.window.event==SDL_WINDOWEVENT_CLOSE) {
-             SDL_DestroyTexture(t);
-             SDL_DestroyRenderer(r);
-             SDL_DestroyWindow(w);
-             SDL_Quit();
-             return;
-          }
-          if (e.type == SDL_MOUSEBUTTONDOWN){
-             debug(0,"CLICK","x:%d y:%d color:%02X",e.button.x/6,e.button.y/6,map->data[e.button.y/6][e.button.x/6]);
-          }
+         switch(e.type){
+            case SDL_WINDOWEVENT:
+            if (e.window.event==SDL_WINDOWEVENT_CLOSE) goto end;
+            break;
+            case SDL_MOUSEBUTTONDOWN:
+            debug(0,"CLICK","x:%d y:%d color:%02X",e.button.x/6,e.button.y/6,map->data[e.button.y/6][e.button.x/6]);
+            break;
+            case SDL_KEYDOWN:
+            debug(0,"KEYDOWN","key %s/%s is pressed.",SDL_GetKeyName(e.key.keysym.sym),SDL_GetScancodeName(e.key.keysym.scancode));
+            if(e.key.keysym.sym==SDLK_ESCAPE)goto end;
+            break;
+         }
       }
       SDL_Delay(10);
    }
+   end:
+   SDL_DestroyTexture(t);
+   SDL_DestroyRenderer(r);
+   SDL_DestroyWindow(w);
+   SDL_Quit();
+   return;
 }

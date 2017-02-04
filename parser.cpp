@@ -8,7 +8,8 @@ int parser_test(){
 	char str[]="x - x**3/6 + O(x**5)";
 	scanf("%s",str);
 	img* ans=parse(str,1);
-	debug(1,"CURSOR","X:%d Y:%d H:%d\tfinal:%p curimg:%p",cursorx,cursory,cursorh,ans,cursorimg);
+	if(cursorimg){debug(4,"CURSOR","X:%d Y:%d H:%d\tfinal:%p curimg:%p",cursorx,cursory,cursorh,ans,cursorimg);}
+	else{debug(4,"CURSOR","No Cursor in current expression.");}
 	gui_draw(ans);
 	blit_freeimg(ans);
 	return 0;
@@ -48,6 +49,7 @@ img* parse(char* str, bool bigfont){
 			cursorx=tmp_0->w;
 			cursory=0;
 			cursorh=tmp_0->h;
+			if(cursorh==0)cursorh=bigfont?16:12;
 			cursorimg=tmp_0;
 			break;
 			case NUMBER:
