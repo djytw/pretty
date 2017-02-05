@@ -53,5 +53,6 @@ typedef enum{
 	KEY_INTCODE_EQUAL = 49
 }KEY_INTCODE;
 
-void insert(int posi,char c);
-void insert(int posi,char* s);
+void insert(char c);
+void insert(char* s);
+void pos_shift(int pos);

@@ -37,6 +37,7 @@ void setdebug(int a);
 	printf("\n\e[0m\e[K");}
 void debugtitle(int level, const char *title);
 void key(int keycode);
+void gui();
 //cursor
 extern img* cursorimg;
 extern int cursorx,cursory,cursorh;
@@ -45,4 +46,6 @@ extern const char ascii[][16];
 //global
 extern char str[256];
 extern int DEBUG;
+#define MIN_WIDTH 200
+#define MIN_HEIGHT 400
 #endif
