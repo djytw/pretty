@@ -66,8 +66,9 @@ void gui_draw(img* map){
             debug(0,"CLICK","x:%d y:%d color:%02X",e.button.x/6,e.button.y/6,map->data[e.button.y/6][e.button.x/6]);
             break;
             case SDL_KEYDOWN:
-            debug(0,"KEYDOWN","key %s/%s is pressed.",SDL_GetKeyName(e.key.keysym.sym),SDL_GetScancodeName(e.key.keysym.scancode));
+            debug(0,"KEYDOWN","key %s/0x%02X is pressed.",SDL_GetKeyName(e.key.keysym.sym),e.key.keysym.sym);
             if(e.key.keysym.sym==SDLK_ESCAPE)goto end;
+            key(e.key.keysym.sym);
             break;
          }
       }

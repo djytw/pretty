@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #ifndef __BLIT_H__
 #define __BLIT_H__
 #define max(a,b) ((a)>(b)?(a):(b))

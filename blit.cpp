@@ -1,5 +1,5 @@
 #include "blit.h"
-
+#include <stdarg.h>
 img* blit_createimg(int w, int h){//TODO -- handle 0,0 input for malloc(0) security issues
 	return blit_createimg(w, h, 0);
 }

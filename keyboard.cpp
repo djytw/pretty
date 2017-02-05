@@ -1,5 +1,5 @@
 #include "keyboard.h"
-char str[256];
+
 bool shift,alpha,alock=0;
 int pos;
 void insert(int posi, char c){
@@ -28,7 +28,7 @@ void insert(int posi, char* s){
 	}
 }
 void key(int keycode){
-	
+
 }
 /*int main(){
 	char keycode;
