@@ -21,12 +21,14 @@ int parser_test(){
 #define OPERM 3
 #define OPERD 4
 #define CURSOR 5
+#define BRACKET 6
 int ttype(char c){
 	if(isdigit(c))return NUMBER;
 	if(c=='+'||c=='-')return OPERP;
 	if(c=='*')return OPERM;
 	if(c=='/')return OPERD;
 	if(c=='|')return CURSOR;
+	if(c=='(')return BRACKET;
 	return CONST;
 }
 img* cursorimg=0;
@@ -160,6 +162,29 @@ img* parse(char* str, bool bigfont){
 				blit_freeimg(t,_t,tmp_0,0);
 				tmp_0=blit_createimg(0,0);
 			}
+			break;
+			case BRACKET:
+			int j,count=0;
+			for(j=i;;j++){
+				if(str[j]=='(')count++;
+				if(str[j]==')')count--;
+				if(!count)break;
+			}
+			char *s;
+			s=(char*)malloc(sizeof(char)*(j-i));
+			strncpy(s,&str[i+1],j-i-1);
+			s[j-i-1]=0;
+			t=font_gen(str[i],bigfont);
+			_t=blit_con(tmp_0,t);
+			blit_freeimg(tmp_0,t,0);
+			t=parse(s,bigfont);
+			tmp_0=blit_con(_t,t);
+			blit_freeimg(_t,t,0);
+			t=font_gen(')',bigfont);
+			_t=blit_con(tmp_0,t);
+			blit_freeimg(tmp_0,t,0);
+			tmp_0=_t;
+			i=j+1;
 			break;
 		}
 	}
