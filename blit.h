@@ -22,6 +22,7 @@ img* blit_con(img* a, img* b);
 img* blit_con(img* a, img* b, int offset);
 img* blit_frac(img* a, img* b);
 img* blit_power(img* a, img* b);
+img* blit_bracket(img* a, bool bigfont);
 int parser_test();
 img* parse(char* str, bool bigfont);
 void gui_draw(img* map);
