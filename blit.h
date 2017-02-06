@@ -38,6 +38,7 @@ void setdebug(int a);
 void debugtitle(int level, const char *title);
 void key(int keycode);
 void gui();
+int ttype(char c);
 //cursor
 extern img* cursorimg;
 extern int cursorx,cursory,cursorh;
@@ -48,4 +49,11 @@ extern char str[256];
 extern int DEBUG;
 #define MIN_WIDTH 200
 #define MIN_HEIGHT 400
+#define NUMBER 0
+#define CONST 1
+#define OPERP 2
+#define OPERM 3
+#define OPERD 4
+#define CURSOR 5
+#define BRACKET 6
 #endif

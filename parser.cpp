@@ -15,13 +15,7 @@ int parser_test(){
 	blit_freeimg(ans);
 	return 0;
 }
-#define NUMBER 0
-#define CONST 1
-#define OPERP 2
-#define OPERM 3
-#define OPERD 4
-#define CURSOR 5
-#define BRACKET 6
+
 int ttype(char c){
 	if(isdigit(c))return NUMBER;
 	if(c=='+'||c=='-')return OPERP;
