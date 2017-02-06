@@ -85,3 +85,42 @@ img* blit_power(img* a, img* b){
 	blit_blit(ret,b,a->w,0);
 	return ret;
 }
+img* blit_bracket(img* a, bool bigfont){
+	int h=a->h;int w=bigfont?5:4;
+	img* br=blit_createimg(w,h,0);
+	img* t=font_gen('(',bigfont);
+	int i,j;
+	if(bigfont){
+		for(i=0;i<7;i++)for(j=0;j<5;j++){
+			br->data[i][j]=t->data[i][j];
+			br->data[h-1-i][j]=t->data[t->h-2-i][j];
+		}
+		for(i=7;i<h-7;i++){
+			br->data[i][0]=0x55;
+			br->data[i][1]=0xff;
+		}
+	}else{
+		for(i=0;i<4;i++)for(j=0;j<4;j++){
+			br->data[i][j]=t->data[i][j];
+			br->data[h-1-i][j]=t->data[t->h-2-i][j];
+		}
+		for(i=4;i<h-4;i++){
+			br->data[i][0]=0x55;
+			br->data[i][1]=0xaa;
+		}
+	}
+	blit_freeimg(t);
+	img* ret=blit_createimg(a->w+2*br->w,h,a->base);
+	blit_blit(ret,br,0,0);
+	blit_blit(ret,a,br->w,0);
+	for(i=0;i<br->h;i++){
+		for(j=0;j<br->w/2;j++){
+			int a=br->data[i][j];
+			br->data[i][j]=br->data[i][br->w-1-j];
+			br->data[i][br->w-1-j]=a;
+		}
+	}
+	blit_blit(ret,br,br->w+a->w,0);
+	blit_freeimg(br);
+	return ret;
+}

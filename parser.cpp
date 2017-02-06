@@ -174,17 +174,13 @@ img* parse(char* str, bool bigfont){
 			s=(char*)malloc(sizeof(char)*(j-i));
 			strncpy(s,&str[i+1],j-i-1);
 			s[j-i-1]=0;
-			t=font_gen(str[i],bigfont);
-			_t=blit_con(tmp_0,t);
-			blit_freeimg(tmp_0,t,0);
 			t=parse(s,bigfont);
-			tmp_0=blit_con(_t,t);
-			blit_freeimg(_t,t,0);
-			t=font_gen(')',bigfont);
-			_t=blit_con(tmp_0,t);
-			blit_freeimg(tmp_0,t,0);
-			tmp_0=_t;
-			i=j+1;
+			_t=blit_bracket(t,bigfont);
+			blit_freeimg(t);
+			t=blit_con(tmp_0,_t);
+			blit_freeimg(tmp_0,_t,0);
+			tmp_0=t;
+			i=j;
 			break;
 		}
 	}
