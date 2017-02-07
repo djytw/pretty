@@ -3,7 +3,6 @@
 #include <SDL2/SDL_keycode.h>
 
 bool shift,alpha,alock=0;
-int posi;
 void insert(char c){
 	if(str[posi+1]=='@'){
 		str[posi]=c;

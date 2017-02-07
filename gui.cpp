@@ -3,7 +3,7 @@
 #include "SDL2/SDL.h"
 #include <stdio.h>
 #include <string.h>
-#include "blit.h"
+#include "pretty.h"
 FT_Library  library;
 img* font_gen(char c, bool bigfont){
    int size,base;
@@ -44,9 +44,8 @@ void gui(){
    SDL_Window *w = SDL_CreateWindow("PRETTY",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,wi,hi, 0);
    SDL_Renderer *r = SDL_CreateRenderer(w, -1,SDL_RENDERER_ACCELERATED);
    SDL_Surface *s= SDL_CreateRGBSurface(0,wi,hi,32,0,0,0,0);
-   str[0]='|';
-   str[1]=0;
-   img* map=parse(str,1);
+   str[0]=0;
+   img* map=parse(0,1,1);
    if(cursorimg){debug(4,"CURSOR","X:%d Y:%d H:%d\tfinal:%p curimg:%p",cursorx,cursory,cursorh,map,cursorimg);}
    else{debug(4,"CURSOR","No Cursor in current expression.");}
    SDL_FillRect(s,NULL,0xFF888888);
@@ -77,7 +76,7 @@ void gui(){
             if(e.key.keysym.sym==SDLK_ESCAPE)goto end;
             key(e.key.keysym.sym);
             blit_freeimg(map);
-            map=parse(str,1);
+            map=parse(0,strlen(str),1);
             if(cursorimg){debug(4,"CURSOR","X:%d Y:%d H:%d\tfinal:%p curimg:%p",cursorx,cursory,cursorh,map,cursorimg);}
             else{debug(4,"CURSOR","No Cursor in current expression.");}
             wi=max(map->w*6,MIN_WIDTH);

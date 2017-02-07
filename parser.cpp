@@ -1,14 +1,13 @@
+#include "pretty.h"
 #include <stdio.h>
-#include "blit.h"
 #include <ctype.h>
 #include <string.h>
 
-int ttype(char c);
 int parser_test(){
 	print(5,"parser_test","Started. Enter a expression.");
-	char str[]="x - x**3/6 + O(x**5)";
 	scanf("%s",str);
-	img* ans=parse(str,1);
+	int l=strlen(str);
+	img* ans=parse(0,l,1);
 	if(cursorimg){debug(4,"CURSOR","X:%d Y:%d H:%d\tfinal:%p curimg:%p",cursorx,cursory,cursorh,ans,cursorimg);}
 	else{debug(4,"CURSOR","No Cursor in current expression.");}
 	gui_draw(ans);
@@ -17,17 +16,115 @@ int parser_test(){
 }
 
 int ttype(char c){
-	if(isdigit(c))return NUMBER;
-	if(c=='+'||c=='-')return OPERP;
-	if(c=='*')return OPERM;
-	if(c=='/')return OPERD;
-	if(c=='|')return CURSOR;
-	if(c=='(')return BRACKET;
-	return CONST;
+	switch (c) {
+		case '+':case '-':case '*':case '/':return OPER;
+		case '^':return POWER;
+		case '(':return BRACKET;
+		case '[':return CBRAC;
+		default:return CONST;
+	}
 }
 img* cursorimg=0;
 int cursorx,cursory,cursorh;
-img* parse(char* str, bool bigfont){
+img* parse(int start, int end, bool bigfont){
+	int i,j,l,count;
+	img *final,*buf, *t, *_t;
+	final=blit_createimg(0,0);//TODO -- malloc(0)??
+	if(start==end)return final;
+	buf=blit_createimg(0,0);
+	l=end-start;
+	char* s=(char*)malloc((l+1)*sizeof(char));
+	strncpy(s,&str[start],l);
+	s[l]=0;
+	debug(3,"PARSE","Parse: str=\e[34m\e[1m%s\e[0m,l=%d, bigfont=%d",s,l,bigfont);
+	/****************************************************************************
+		case const/num , put it to tmp_0
+		case /* , put tmp_0 to tmp_1
+		case +- , put tmp_0 to tmp_1 ,then put tmp_1 to final
+		case ^ , put power(tmp_0,parse) to tmp_1
+		case []/[] , put frac(parse1,parse2) to tmp_1
+
+		fraction: []/[]
+		power: ^[]
+
+		after all process, change all ^ to ** and [] to ()
+	****************************************************************************/
+	for(i=start;i<end;i++){
+		if(i==posi){
+			cursorx=final->w+buf->w;
+			cursory=0;
+			//cursorh=buf->h;
+			cursorh=bigfont?16:12;
+			cursorimg=buf;
+		}
+		switch(ttype(str[i])){
+		case CONST:
+			buf=blit_con_f(buf,font_gen(str[i],bigfont));
+			break;
+		case OPER:
+			final=blit_con_f(final,buf);
+			buf=blit_createimg(0,0);
+			final=blit_con_f(final,font_gen(str[i],bigfont),1);
+			break;
+		case POWER:
+			count=0;i++;
+			// square brackets was add by system, and must be paired.
+			//             and after a power mark, there must be a '['
+			for(j=i;;j++){
+				if(str[j]=='[')count++;
+				if(str[j]==']')count--;
+				if(!count)break;
+			}
+			t=parse(i+1,j,0);
+			final=blit_con_f(final,blit_power_f(buf,t));
+			buf=blit_createimg(0,0);
+			i=j;
+			break;
+		case CBRAC:
+			// must be []/[] now, and buf=nil?
+			count=0;
+			for(j=i;;j++){
+				if(str[j]=='[')count++;
+				if(str[j]==']')count--;
+				if(!count)break;
+			}//numerator
+			t=parse(i+1,j,bigfont);
+			i=j+2;
+			for(j=i;;j++){
+				if(str[j]=='[')count++;
+				if(str[j]==']')count--;
+				if(!count)break;
+			}//denominator
+			_t=parse(i+1,j,bigfont);
+			buf=blit_con_f(buf,blit_frac_f(t,_t));
+			i=j;
+			break;
+		case BRACKET:
+			count=0;
+			//may not paired
+			for(j=i;j<end;j++){
+				if(str[j]=='(')count++;
+				if(str[j]==')')count--;
+				if(!count)break;
+			}
+			// count!=0 -> not paired
+			// AND j=i+1 no contents
+			if(j==i+1){
+				buf=blit_con_f(buf,font_gen(str[i],bigfont));
+				break;
+			}
+			t=parse(i+1,j,bigfont);
+			if(count)buf=blit_con_f(buf,blit_bracket_f(t,bigfont,1));
+			else buf=blit_con_f(buf,blit_bracket_f(t,bigfont));
+			i=j;
+			break;
+		}
+	}
+	final=blit_con_f(final,buf);
+	return final;
+}
+/*
+img* _parse(char* str, bool bigfont){
 	int i,l;
 	img *final,*tmp_0, *tmp_1, *t, *_t;
 	final=blit_createimg(0,0);//TODO -- malloc(0)??
@@ -184,3 +281,4 @@ img* parse(char* str, bool bigfont){
 	final=_t;
 	return final;
 }
+*/

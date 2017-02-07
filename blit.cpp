@@ -1,4 +1,4 @@
-#include "blit.h"
+#include "pretty.h"
 #include <stdarg.h>
 img* blit_createimg(int w, int h){//TODO -- handle 0,0 input for malloc(0) security issues
 	return blit_createimg(w, h, 0);
@@ -36,18 +36,6 @@ void blit_freeimg(img* a, img* b, ...){
 	blit_freeimg(a);
 	blit_freeimg(b);
 }
-void blit_cdraw(img* map){
-	int i,j;
-	if(map->w==0||map->h==0){
-		printf("---no data---\n");
-	}
-	for(i=0;i<map->h;i++){
-		for(j=0;j<map->w;j++){
-			map->data[i][j]==1?printf("+"):printf(" ");
-		}
-		printf("\n");
-	}
-}
 void blit_blit(img* dst, img* src, int x, int y){
 	int i,j;
 	for(i=0;i<src->w&&i+x<dst->w;i++)
@@ -59,13 +47,29 @@ void blit_blit(img* dst, img* src, int x, int y){
 		cursorimg=dst;
 	}
 }
+img* blit_con_f(img* a, img *b){
+	img* t=blit_con(a,b);
+	blit_freeimg(a,b,0);
+	return t;
+}
+img* blit_con_f(img* a, img* b, img* c){
+	img *t=blit_con(a,b);
+	img *t2=blit_con(t,c);
+	blit_freeimg(t,a,b,c,0);
+	return t2;
+}
+img* blit_con_f(img* a, img* b, int offset){
+	img* t=blit_con(a,b,offset);
+	blit_freeimg(a,b,0);
+	return t;
+}
 img* blit_con(img* a, img* b){
 	return blit_con(a,b,0);
 }
 img* blit_con(img* a, img* b, int offset){
 	int base=max(a->base,b->base);
 	int h=base+max(a->h-a->base,b->h-b->base);
-	int w=a->w+b->w+offset;
+	int w=a->w+b->w+offset*2;
 	img* ret=blit_createimg(w,h,base);
 	blit_blit(ret,a,0,base-a->base);
 	blit_blit(ret,b,a->w+offset,base-b->base);
@@ -79,13 +83,26 @@ img* blit_frac(img* a, img* b){
 	for(i=0;i<ret->w;i++)ret->data[a->h-1][i]=0xff;
 	return ret;
 }
+img* blit_frac_f(img* a, img* b){
+	img* ret=blit_frac(a,b);
+	blit_freeimg(a,b,0);
+	return ret;
+}
 img* blit_power(img* a, img* b){
 	img* ret=blit_createimg(a->w+b->w,a->h+b->h-4,b->h-4+a->base);
 	blit_blit(ret,a,0,b->h-4);
 	blit_blit(ret,b,a->w,0);
 	return ret;
 }
-img* blit_bracket(img* a, bool bigfont){
+img* blit_power_f(img* a, img* b){
+	img *t=blit_power(a,b);
+	blit_freeimg(a,b,0);
+	return t;
+}
+img* blit_bracket_f(img* a, bool bigfont){
+	return blit_bracket_f(a,bigfont,0);
+}
+img* blit_bracket_f(img* a, bool bigfont, bool norbraket){
 	int h=a->h;int w=bigfont?5:4;
 	img* br=blit_createimg(w,h,0);
 	img* t=font_gen('(',bigfont);
@@ -110,9 +127,12 @@ img* blit_bracket(img* a, bool bigfont){
 		}
 	}
 	blit_freeimg(t);
-	img* ret=blit_createimg(a->w+2*br->w,h,a->base);
+	img *ret;
+	if(norbraket)ret=blit_createimg(a->w+br->w,h,a->base);
+	else ret=blit_createimg(a->w+br->w*2,h,a->base);
 	blit_blit(ret,br,0,0);
 	blit_blit(ret,a,br->w,0);
+	if(norbraket)return ret;
 	for(i=0;i<br->h;i++){
 		for(j=0;j<br->w/2;j++){
 			int a=br->data[i][j];
@@ -122,5 +142,6 @@ img* blit_bracket(img* a, bool bigfont){
 	}
 	blit_blit(ret,br,br->w+a->w,0);
 	blit_freeimg(br);
+	blit_freeimg(a);
 	return ret;
 }

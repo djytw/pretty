@@ -1,4 +1,4 @@
-#include "blit.h"
+#include "pretty.h"
 #include "string.h"
 
 typedef enum{
