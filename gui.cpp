@@ -168,21 +168,23 @@ int key(SDL_Keysym k){
    if(keycode==SDLK_F1){//fraction
       insert("[@]/[@]");
       pos_shift(-6);
-      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m",str);
+      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;
    }
    if(keycode==SDLK_F2||mod&KMOD_SHIFT&&keycode=='6'){//power
       insert("^[@]");
       pos_shift(-2);
-      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m",str);
+      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;
    }
    if(keycode==SDLK_LEFT){
-      pos_shift(-1);
+      pos_shift_left();
+      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;
    }
    if(keycode==SDLK_RIGHT){
-      pos_shift(1);
+      pos_shift_right();
+      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;
    }
    if(keycode>1<<30)//SDL_SCANCODE_TO_KEYCODE
@@ -196,38 +198,25 @@ int key(SDL_Keysym k){
 	if(islower(keycode)){
 		if((mod&KMOD_SHIFT)||(mod&KMOD_CAPS))insert(keycode-'a'+'A');
       else insert(keycode);
-      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m",str);
+      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;
 	}
    if(isdigit(keycode)){
       char tr[]=")!@#$%^&*(";
       if(mod&KMOD_SHIFT&&(keycode>'7'||keycode=='0'))insert(tr[keycode-'0']);
       else insert(keycode);
-      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m",str);
+      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;
    }
    if(keycode=='/'||keycode=='.'||keycode=='-'){
       insert(keycode);
-      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m",str);
+      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;
    }
    if(keycode=='='&&mod&KMOD_SHIFT){
       insert('+');
-      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m",str);
+      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;
    }
-   switch(keycode){
-	case '[':
-		insert('(');
-		break;
-	case ']':
-		insert(')');
-		break;
-	case SDLK_LEFT:
-		pos_shift(-1);
-		break;
-	case SDLK_RIGHT:
-		pos_shift(1);
-		break;
-	}
+   return -1;
 }

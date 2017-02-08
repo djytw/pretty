@@ -31,5 +31,23 @@ void insert(const char* s){
 	posi+=l;
 }
 void pos_shift(int pos){
+	//unsafe pos shift
 	posi+=pos;
+}
+void pos_shift_right(){
+	switch(str[posi]){//2^[2] // [2]/[2]
+		case '^':posi++;break;
+		case ']':if(str[posi+1]=='/'&&str[posi+2]=='[')posi+=2;break;
+	}
+	posi++;
+	if(posi>strlen(str))posi=strlen(str);
+}
+void pos_shift_left(){
+	posi--;if(posi<0)posi=0;
+	if(str[posi]=='['&&posi>0){
+		switch(str[posi-1]){
+			case '^':posi--;break;
+			case '/':if(posi>1&&str[posi-2]==']')posi-=2;break;
+		}
+	}
 }

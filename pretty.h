@@ -53,6 +53,8 @@ void debugtitle(int level, const char *title);
 void insert(char c);
 void insert(const char* s);
 void pos_shift(int pos);
+void pos_shift_left();
+void pos_shift_right();
 
 /********        GLOBAL VARIBLES      ********/
 //cursor
