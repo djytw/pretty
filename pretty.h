@@ -46,7 +46,7 @@ void debugtitle(int level, const char *title);
 	 printf(msg, ##__VA_ARGS__);\
 	 printf("\n\e[0m\e[K");}
 #define debug(level, title, msg, ...)\
-	if(level<=DEBUG){debugtitle(level, title);\
+	if(level>=DEBUG){debugtitle(level, title);\
 	printf(msg, ##__VA_ARGS__);\
 	printf("\n\e[0m\e[K");}
 //keyboard.cpp

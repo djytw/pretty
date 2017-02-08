@@ -5,6 +5,7 @@
 
 int parser_test(){
 	print(5,"parser_test","Started. Enter a expression and cursor position.");
+	cursorimg=0;
 	scanf("%s%d",str,&posi);
 	int l=strlen(str);
 	img* ans=parse(0,l,1);
@@ -43,6 +44,7 @@ img* parse(int start, int end, bool bigfont){
 	strncpy(s,&str[start],l);
 	s[l]=0;
 	debug(3,"PARSE","Parse: str=\e[32m\e[1m%s\e[0m,l=%d, bigfont=%d",s,l,bigfont);
+	free(s);
 	/****************************************************************************
 		case const/num , put it to buf
 		case +-/* , put buf to final, then put OPER to final

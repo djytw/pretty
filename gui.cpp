@@ -40,6 +40,8 @@ img* font_gen(char c, bool bigfont){
       }
    }
    debug(2,"FONTGEN","\e[33m\e[1mCHAR:\e[0m%c \e[33m\e[1mW:\e[0m%d \e[33m\e[1mH:\e[0m%d \e[33m\e[1mBASE:\e[0m%d",c,ret->w,ret->h,ret->base);
+   FT_Done_Face(face);
+   FT_Done_FreeType(library);
    return ret;
 }
 void gui(){
@@ -81,7 +83,7 @@ void gui(){
             int keystatus=key(e.key.keysym);
             if(keystatus==-2)goto end;
             if(keystatus==-1)break;
-            blit_freeimg(map);
+            blit_freeimg(map);cursorimg=0;
             map=parse(0,strlen(str),1);
             if(cursorimg){
                debug(4,"CURSOR","X:%d Y:%d H:%d\tfinal:%p curimg:%p",cursorx,cursory,cursorh,map,cursorimg);
@@ -107,7 +109,6 @@ void gui(){
             SDL_RenderPresent(r);
             SDL_FreeSurface(s);
             SDL_DestroyTexture(t);
-            SDL_Event e; int a=0;
             break;
          }
       }
@@ -151,6 +152,8 @@ void gui_draw(img* map){
             case SDL_KEYDOWN:
             debug(0,"KEYDOWN","key %s/0x%02X is pressed.",SDL_GetKeyName(e.key.keysym.sym),e.key.keysym.sym);
             if(e.key.keysym.sym==SDLK_ESCAPE)goto end;
+            if(e.key.keysym.sym==SDLK_LEFT)pos_shift_left();
+            if(e.key.keysym.sym==SDLK_RIGHT)pos_shift_right();
             break;
          }
       }
