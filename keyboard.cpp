@@ -31,6 +31,7 @@ void insert(const char* s){
 	posi+=l;
 }
 void backspace(){
+	if(!posi)return;
 	int i;
 	for(i=posi;i<=strlen(str);i++){
 		str[i-1]=str[i];

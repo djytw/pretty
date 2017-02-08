@@ -37,7 +37,6 @@ void blit_freeimg(img* a, img* b, ...){
 	blit_freeimg(b);
 }
 void blit_blit(img* dst, img* src, int x, int y){
-	if(dst->w==0||dst->h==0||src->w==0||src->h==0)print(7,"BLIT","0");
 	int i,j;
 	for(i=0;i<src->w&&i+x<dst->w;i++)
 		for(j=0;j<src->h&&j+y<dst->h;j++)
