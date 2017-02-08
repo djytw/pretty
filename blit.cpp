@@ -111,18 +111,18 @@ img* blit_bracket_f(img* a, bool bigfont, bool norbraket){
 	if(bigfont){
 		for(i=0;i<7;i++)for(j=0;j<5;j++){
 			br->data[i][j]=t->data[i][j];
-			br->data[h-1-i][j]=t->data[t->h-2-i][j];
+			br->data[h-2-i][j]=t->data[t->h-2-i][j];
 		}
-		for(i=7;i<h-7;i++){
+		for(i=7;i<h-8;i++){
 			br->data[i][0]=0x55;
 			br->data[i][1]=0xff;
 		}
 	}else{
 		for(i=0;i<4;i++)for(j=0;j<4;j++){
 			br->data[i][j]=t->data[i][j];
-			br->data[h-1-i][j]=t->data[t->h-2-i][j];
+			br->data[h-2-i][j]=t->data[t->h-2-i][j];
 		}
-		for(i=4;i<h-4;i++){
+		for(i=4;i<h-5;i++){
 			br->data[i][0]=0x55;
 			br->data[i][1]=0xaa;
 		}

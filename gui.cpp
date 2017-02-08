@@ -69,6 +69,7 @@ void gui(){
             if (e.window.event==SDL_WINDOWEVENT_CLOSE) goto end;
             break;
             case SDL_MOUSEBUTTONDOWN:
+            if(e.button.x/6>map->w||e.button.y/6>map->h)break;
             debug(0,"CLICK","x:%d y:%d color:%02X",e.button.x/6,e.button.y/6,map->data[e.button.y/6][e.button.x/6]);
             break;
             case SDL_KEYDOWN:
@@ -82,6 +83,7 @@ void gui(){
             wi=max(map->w*6,MIN_WIDTH);
             hi=max(map->h*6,MIN_HEIGHT);
             s= SDL_CreateRGBSurface(0,wi,hi,32,0,0,0,0);
+            SDL_FillRect(s,NULL,0xFF888888);
             SDL_SetWindowSize(w,wi,hi);
             int i,j;
             for(i=0;i<map->h;i++)for(j=0;j<map->w;j++){
