@@ -50,8 +50,9 @@ void debugtitle(int level, const char *title);
 	printf(msg, ##__VA_ARGS__);\
 	printf("\n\e[0m\e[K");}
 //keyboard.cpp
-void key(int keycode);
-
+void insert(char c);
+void insert(const char* s);
+void pos_shift(int pos);
 
 /********        GLOBAL VARIBLES      ********/
 //cursor
