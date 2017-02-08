@@ -52,6 +52,7 @@ void debugtitle(int level, const char *title);
 //keyboard.cpp
 void insert(char c);
 void insert(const char* s);
+void backspace();
 void pos_shift(int pos);
 void pos_shift_left();
 void pos_shift_right();

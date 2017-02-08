@@ -4,6 +4,7 @@ img* blit_createimg(int w, int h){//TODO -- handle 0,0 input for malloc(0) secur
 	return blit_createimg(w, h, 0);
 }
 img* blit_createimg(int w, int h, int base){
+	if(w==0||h==0){print(7,"CREATEIMG","0");}
 	img* ret=(img*)malloc(sizeof(img));
 	ret->w=w;
 	ret->h=h;
@@ -37,6 +38,7 @@ void blit_freeimg(img* a, img* b, ...){
 	blit_freeimg(b);
 }
 void blit_blit(img* dst, img* src, int x, int y){
+	if(dst->w==0||dst->h==0||src->w==0||src->h==0)print(7,"BLIT","0");
 	int i,j;
 	for(i=0;i<src->w&&i+x<dst->w;i++)
 		for(j=0;j<src->h&&j+y<dst->h;j++)
@@ -68,6 +70,14 @@ img* blit_con(img* a, img* b){
 	return blit_con(a,b,0);
 }
 img* blit_con(img* a, img* b, int offset){
+	if(a->w==0||a->h==0){
+		int base=b->base;
+		int h=b->h;
+		int w=b->w+offset*2;
+		img* ret=blit_createimg(w,h,base);
+		blit_blit(ret,b,0,offset);
+		return ret;
+	}
 	int base=max(a->base,b->base);
 	int h=base+max(a->h-a->base,b->h-b->base);
 	int w=a->w+b->w+offset*2;

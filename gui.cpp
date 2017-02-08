@@ -51,18 +51,9 @@ void gui(){
    SDL_Window *w = SDL_CreateWindow("PRETTY",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,wi,hi, 0);
    SDL_Renderer *r = SDL_CreateRenderer(w, -1,SDL_RENDERER_ACCELERATED);
    SDL_Surface *s= SDL_CreateRGBSurface(0,wi,hi,32,0,0,0,0);
-   str[0]=0;
-   img* map=parse(0,1,1);
-   if(cursorimg){debug(4,"CURSOR","X:%d Y:%d H:%d\tfinal:%p curimg:%p",cursorx,cursory,cursorh,map,cursorimg);}
-   else{debug(4,"CURSOR","No Cursor in current expression.");}
    SDL_FillRect(s,NULL,0xFF888888);
+   img *map=blit_createimg(0,0);
    SDL_Rect re;re.w=5;re.h=5;
-   int i,j;
-   for(i=0;i<map->h;i++)for(j=0;j<map->w;j++){
-         re.x=j*6;re.y=i*6;
-         int color=(255-map->data[i][j])*0x010101+0xff000000;
-         SDL_FillRect(s,&re,color);
-   }
    SDL_Texture *t = SDL_CreateTextureFromSurface(r, s);
    SDL_RenderCopy(r, t, NULL,NULL);
    SDL_RenderPresent(r);
@@ -83,11 +74,12 @@ void gui(){
             int keystatus=key(e.key.keysym);
             if(keystatus==-2)goto end;
             if(keystatus==-1)break;
-            blit_freeimg(map);cursorimg=0;
+            blit_freeimg(map);
+            cursorimg=0;
             map=parse(0,strlen(str),1);
             if(cursorimg){
                debug(4,"CURSOR","X:%d Y:%d H:%d\tfinal:%p curimg:%p",cursorx,cursory,cursorh,map,cursorimg);
-               int i;
+               int i;if(cursorx>0)cursorx--;
          		for(i=0;i<cursorh;i++){
          			map->data[cursory+i][cursorx]=0x88;
          		}
@@ -177,6 +169,11 @@ int key(SDL_Keysym k){
    if(keycode==SDLK_F2||mod&KMOD_SHIFT&&keycode=='6'){//power
       insert("^[@]");
       pos_shift(-2);
+      debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
+      return 0;
+   }
+   if(keycode==SDLK_BACKSPACE){
+      backspace();
       debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;
    }

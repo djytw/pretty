@@ -30,6 +30,13 @@ void insert(const char* s){
 	}
 	posi+=l;
 }
+void backspace(){
+	int i;
+	for(i=posi;i<=strlen(str);i++){
+		str[i-1]=str[i];
+	}
+	posi--;
+}
 void pos_shift(int pos){
 	//unsafe pos shift
 	posi+=pos;
