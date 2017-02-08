@@ -45,6 +45,7 @@ void blit_blit(img* dst, img* src, int x, int y){
 		cursorx+=x;
 		cursory+=y;
 		cursorimg=dst;
+		debug(2,"CURSOR","Cursor transferred to new position: x:%d y:%d old=%p new=%p",cursorx,cursory,src,dst);
 	}
 }
 img* blit_con_f(img* a, img *b){
