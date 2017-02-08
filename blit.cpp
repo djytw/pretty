@@ -4,7 +4,6 @@ img* blit_createimg(int w, int h){//TODO -- handle 0,0 input for malloc(0) secur
 	return blit_createimg(w, h, 0);
 }
 img* blit_createimg(int w, int h, int base){
-	if(w==0||h==0){print(7,"CREATEIMG","0");}
 	img* ret=(img*)malloc(sizeof(img));
 	ret->w=w;
 	ret->h=h;
