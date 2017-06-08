@@ -59,10 +59,10 @@ img* parse(int start, int end, bool bigfont){
 	for(i=start;i<end;i++){
 		if(i==posi){
 			cursorx=buf->w;
-			cursory=0;
+			cursory=buf->base;
 			cursorh=bigfont?12:9;
 			cursorimg=buf;
-			debug(2,"CURSOR","Cursor generated. Initial position: x:%d y:%d curimg=%p",cursorx,cursory,cursorimg);
+			debug(2,"CURSOR","Cursor generated. Initial position: x:%d y:%d h:%d curimg=%p(w%d,h%d,b%d)",cursorx,cursory,cursorh,cursorimg,cursorimg->w,cursorimg->h,cursorimg->base);
 		}
 		switch(ttype(str[i])){
 		case CONST:
@@ -129,7 +129,7 @@ img* parse(int start, int end, bool bigfont){
 	}
 	if(i==posi){
 		cursorx=buf->w;
-		cursory=0;
+		cursory=buf->base;
 		cursorh=bigfont?12:9;
 		cursorimg=buf;
 		debug(2,"CURSOR","Cursor generated. Initial position: x:%d y:%d curimg=%p",cursorx,cursory,cursorimg);

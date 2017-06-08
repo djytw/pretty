@@ -4,11 +4,14 @@ img* blit_createimg(int w, int h){//TODO -- handle 0,0 input for malloc(0) secur
 	return blit_createimg(w, h, 0);
 }
 img* blit_createimg(int w, int h, int base){
+	//TEST!!!! w=0 h=0???
 	img* ret=(img*)malloc(sizeof(img));
+	if(w==0)w=1;
+	if(h==0)h=1;
 	ret->w=w;
 	ret->h=h;
 	ret->base=base;
-	if(w==0||h==0)return ret;
+	//if(w==0||h==0)return ret;
 	ret->data=(unsigned char**)malloc(h*sizeof(unsigned char*));
 	int i;
 	for(i=0;i<h;i++)
@@ -37,6 +40,7 @@ void blit_freeimg(img* a, img* b, ...){
 	blit_freeimg(b);
 }
 void blit_blit(img* dst, img* src, int x, int y){
+	debug(1,"BLIT","blit: dst=%p src=%p x=%d y=%d",dst,src,x,y);
 	int i,j;
 	for(i=0;i<src->w&&i+x<dst->w;i++)
 		for(j=0;j<src->h&&j+y<dst->h;j++)
@@ -45,7 +49,7 @@ void blit_blit(img* dst, img* src, int x, int y){
 		cursorx+=x;
 		cursory+=y;
 		cursorimg=dst;
-		debug(2,"CURSOR","Cursor transferred to new position: x:%d y:%d old=%p new=%p",cursorx,cursory,src,dst);
+		debug(2,"CURSOR","Cursor transferred to new position: x:%d y:%d h:%d old=%p(w%d,h%d,b%d) new=%p(w%d,h%d,b%d)",cursorx,cursory,cursorh,src,src->w,src->h,src->base,dst,dst->w,dst->h,dst->base);
 	}
 }
 img* blit_con_f(img* a, img *b){
