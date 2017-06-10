@@ -40,35 +40,55 @@ void backspace(){
 		if(posi>1&&str[posi-2]=='^')backspace_pow();
 		else if(posi>1&&str[posi-2]=='/')pos_shift_left();
 		else backspace_frac();
+	}else if(str[posi]==']'&&posi>1&&str[posi-2]=='['){
+		str[posi-1]='@';
+		posi--;
 	}
 	else backspace_char();
 }
 void backspace_pow(){
-	// 123^[456] => 123456  posi:5 => 3
-	int i;
-	posi-=2;
-	for(i=posi;;i++){
-		if(str[i+2]==']')break;
-		str[i]=str[i+2];
-	}
-	for(;i<=strlen(str)-2;i++){
-		str[i]=str[i+3];
+	// 1) 123^[456] => 123456  posi:5 => 3  len-=3
+	// 2) 123^[@] => 123 		posi:5 => 3  len-=4
+	int i;int l=strlen(str);
+	if(str[posi]=='@'){
+		//mode 2
+		posi-=2;
+		for(i=posi;i<l-3;i++){
+			str[i]=str[i+4];
+		}
+	}else{
+		posi-=2;
+		for(i=posi;;i++){
+			if(str[i+2]==']')break;
+			str[i]=str[i+2];
+		}
+		for(;i<l-2;i++){
+			str[i]=str[i+3];
+		}
 	}
 }
 void backspace_frac(){
-	// [123]/[456] => 123456 posi: 1=>0
-	int i;
-	posi--;
-	for(i=posi;;i++){
-		if(str[i+1]==']')break;
-		str[i]=str[i+1];
-	}
-	for(;;i++){
-		if(str[i+4]==']')break;
-		str[i]=str[i+4];
-	}
-	for(;i<=strlen(str)-4;i++){
-		str[i]=str[i+5];
+	// 1) [123]/[456] => 123456	posi: 1=>0	len-=5
+	// 2) 1[@]/[@]2 => 12 			posi: 2=>1	len-=7
+	int i;int l=strlen(str);
+	if(str[posi]=='@'){
+		posi--;
+		for(i=posi;i<l-6;i++){
+			str[i]=str[i+7];
+		}
+	}else{
+		posi--;
+		for(i=posi;;i++){
+			if(str[i+1]==']')break;
+			str[i]=str[i+1];
+		}
+		for(;;i++){
+			if(str[i+4]==']')break;
+			str[i]=str[i+4];
+		}
+		for(;i<l-4;i++){
+			str[i]=str[i+5];
+		}
 	}
 }
 void backspace_char(){
