@@ -4,14 +4,14 @@ img* blit_createimg(int w, int h){//TODO -- handle 0,0 input for malloc(0) secur
 	return blit_createimg(w, h, 0);
 }
 img* blit_createimg(int w, int h, int base){
-	//TEST!!!! w=0 h=0???
 	img* ret=(img*)malloc(sizeof(img));
-	if(w==0)w=1;
-	if(h==0)h=1;
+	//if(w==0)w=1;
+	//if(h==0)h=1;
 	ret->w=w;
 	ret->h=h;
 	ret->base=base;
-	//if(w==0||h==0)return ret;
+	ret->data=0;
+	if(w==0||h==0)return ret;
 	ret->data=(unsigned char**)malloc(h*sizeof(unsigned char*));
 	int i;
 	for(i=0;i<h;i++)
@@ -78,6 +78,10 @@ img* blit_con(img* a, img* b, int offset){
 		int w=b->w+offset*2;
 		img* ret=blit_createimg(w,h,base);
 		blit_blit(ret,b,0,offset);
+		if(cursorimg==a){
+			cursorimg=ret;
+			debug(2,"CURSOR","Cursor position is not changed: x:%d y:%d h:%d %p(w%d,h%d,b%d)",cursorx,cursory,cursorh,a,a->w,a->h,a->base);
+		}
 		return ret;
 	}
 	int base=max(a->base,b->base);

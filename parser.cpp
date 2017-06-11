@@ -33,7 +33,7 @@ int ttype(char c){
 }
 img* cursorimg=0;
 int cursorx,cursory,cursorh;
-img* parse(int start, int end, bool bigfont){
+img* parse_int(int start, int end, bool bigfont){
 	int i,j,l,count;
 	img *final,*buf, *t, *_t;
 	final=blit_createimg(0,0);//TODO -- malloc(0)??
@@ -136,4 +136,12 @@ img* parse(int start, int end, bool bigfont){
 	}
 	final=blit_con_f(final,buf);
 	return final;
+}
+img* parse(int start, int end, bool bigfont){
+	img* ret;
+	ret=parse_int(start,end,bigfont);
+	img* ans=blit_createimg(ret->w,ret->h+3,ret->base+3);
+	blit_blit(ans,ret,0,3);
+	blit_freeimg(ret);
+	return ans;
 }
