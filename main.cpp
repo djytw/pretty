@@ -1,7 +1,7 @@
 #include "pretty.h"
 
-char str[256]="##";
-int posi=1;
+char str[256];
+int posi;
 int main(int argc, char** argv){
    setdebug(4);
    print(6,"START","DJYTW Pretty (Parser Version 0.2)");

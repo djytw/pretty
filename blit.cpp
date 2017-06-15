@@ -104,8 +104,8 @@ img* blit_frac_f(img* a, img* b){
 	return ret;
 }
 img* blit_power(img* a, img* b){
-	img* ret=blit_createimg(a->w+b->w,a->h+b->h-4,b->h-4+a->base);
-	blit_blit(ret,a,0,b->h-4);
+	img* ret=blit_createimg(a->w+b->w,a->h+b->h-6,b->h-6+a->base);
+	blit_blit(ret,a,0,b->h-6);
 	blit_blit(ret,b,a->w,0);
 	return ret;
 }
