@@ -43,7 +43,7 @@ void backspace(){
 	}else if(str[posi]==']'&&posi>1&&str[posi-2]=='['){
 		str[posi-1]='@';
 		posi--;
-	}
+	}else if(str[posi-1]=='#')return;
 	else backspace_char();
 }
 void backspace_pow(){
@@ -107,6 +107,7 @@ void pos_shift_right(){
 		case '@':posi++;pos_shift_right();posi--;break;
 		case '^':posi++;break;
 		case ']':if(str[posi+1]=='/'&&str[posi+2]=='[')posi+=2;break;
+		case '#':return;
 	}
 	posi++;
 	if(posi>strlen(str))posi=strlen(str);
@@ -120,5 +121,7 @@ void pos_shift_left(){
 			case '/':if(posi>1&&str[posi-2]==']')posi-=2;break;
 		}
 	}
+	else if(str[posi]=='#')
+			posi++;
 	if(str[posi-1]=='@')posi--;
 }

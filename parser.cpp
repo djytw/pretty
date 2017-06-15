@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-
+img* parse_int(int start, int end, bool bigfont);
 int parser_test(){
 	print(5,"parser_test","Started. Enter a expression and cursor position.");
 	cursorimg=0;
 	scanf("%s%d",str,&posi);
 	int l=strlen(str);
-	img* ans=parse(0,l,1);
+	img* ans=parse_int(0,l,1);
 	if(cursorimg){
 		debug(4,"CURSOR","X:%d Y:%d H:%d\tfinal:%p curimg:%p",cursorx,cursory,cursorh,ans,cursorimg);
 		int i;
@@ -82,7 +82,7 @@ img* parse_int(int start, int end, bool bigfont){
 				if(str[j]==']')count--;
 				if(!count)break;
 			}
-			t=parse(i+1,j,0);
+			t=parse_int(i+1,j,0);
 			final=blit_con_f(final,blit_power_f(buf,t));
 			buf=blit_createimg(0,0);
 			i=j;
@@ -95,14 +95,14 @@ img* parse_int(int start, int end, bool bigfont){
 				if(str[j]==']')count--;
 				if(!count)break;
 			}//numerator
-			t=parse(i+1,j,bigfont);
+			t=parse_int(i+1,j,bigfont);
 			i=j+2;
 			for(j=i;;j++){
 				if(str[j]=='[')count++;
 				if(str[j]==']')count--;
 				if(!count)break;
 			}//denominator
-			_t=parse(i+1,j,bigfont);
+			_t=parse_int(i+1,j,bigfont);
 			buf=blit_con_f(buf,blit_frac_f(t,_t));
 			i=j;
 			break;
@@ -120,7 +120,7 @@ img* parse_int(int start, int end, bool bigfont){
 				buf=blit_con_f(buf,font_gen(str[i],bigfont));
 				break;
 			}
-			t=parse(i+1,j,bigfont);
+			t=parse_int(i+1,j,bigfont);
 			if(count)buf=blit_con_f(buf,blit_bracket_f(t,bigfont,1));
 			else buf=blit_con_f(buf,blit_bracket_f(t,bigfont));
 			i=j;
@@ -140,8 +140,9 @@ img* parse_int(int start, int end, bool bigfont){
 img* parse(int start, int end, bool bigfont){
 	img* ret;
 	ret=parse_int(start,end,bigfont);
-	img* ans=blit_createimg(ret->w,ret->h+3,ret->base+3);
+	/*img* ans=blit_createimg(ret->w,ret->h+3,ret->base+3);
 	blit_blit(ans,ret,0,3);
 	blit_freeimg(ret);
-	return ans;
+	return ans;*/
+	return ret;
 }

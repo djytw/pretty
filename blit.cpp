@@ -1,12 +1,10 @@
 #include "pretty.h"
 #include <stdarg.h>
-img* blit_createimg(int w, int h){//TODO -- handle 0,0 input for malloc(0) security issues
+img* blit_createimg(int w, int h){
 	return blit_createimg(w, h, 0);
 }
 img* blit_createimg(int w, int h, int base){
 	img* ret=(img*)malloc(sizeof(img));
-	//if(w==0)w=1;
-	//if(h==0)h=1;
 	ret->w=w;
 	ret->h=h;
 	ret->base=base;
@@ -93,11 +91,11 @@ img* blit_con(img* a, img* b, int offset){
 	return ret;
 }
 img* blit_frac(img* a, img* b){
-	img* ret=blit_createimg(max(a->w,b->w)+2,a->h+b->h+2,a->h-6);
+	img* ret=blit_createimg(max(a->w,b->w)+2,a->h+b->h+3,a->h-6);
 	blit_blit(ret,a,(ret->w-a->w)/2,0);
-	blit_blit(ret,b,(ret->w-b->w)/2,a->h+2);
+	blit_blit(ret,b,(ret->w-b->w)/2,a->h+3);
 	int i;
-	for(i=0;i<ret->w;i++)ret->data[a->h-1][i]=0xff;
+	for(i=0;i<ret->w;i++)ret->data[a->h+1][i]=0xff;
 	return ret;
 }
 img* blit_frac_f(img* a, img* b){

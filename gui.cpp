@@ -22,7 +22,7 @@ img* font_gen(char c, bool bigfont){
    FT_GlyphSlot slot=face->glyph;
    int i,j,p;
    FT_Bitmap *bitmap=&slot->bitmap;
-   img *ret=blit_createimg(slot->advance.x >> 6 ,size+slot->bitmap_top-base,slot->bitmap_top-base);
+   img *ret=blit_createimg(slot->advance.x >> 6 ,12,slot->bitmap_top-base);
    for(p=0,i=slot->bitmap_left;p<bitmap->width;i++,p++){
       for(j=0;j<bitmap->rows;j++){
          if(i<0||j<0||i>=ret->w||j>=ret->h)continue;
