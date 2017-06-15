@@ -66,6 +66,10 @@ void backspace_pow(){
 			str[i]=str[i+3];
 		}
 	}
+	if(str[posi-1]=='['&&str[posi]==']'){
+		insert('@');
+		posi--;
+	}
 }
 void backspace_frac(){
 	// 1) [123]/[456] => 123456	posi: 1=>0	len-=5
@@ -89,6 +93,10 @@ void backspace_frac(){
 		for(;i<l-4;i++){
 			str[i]=str[i+5];
 		}
+	}
+	if(str[posi-1]=='['&&str[posi]==']'){
+		insert('@');
+		posi--;
 	}
 }
 void backspace_char(){
