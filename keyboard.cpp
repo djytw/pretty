@@ -43,7 +43,7 @@ void backspace(){
 	}else if(str[posi]==']'&&posi>1&&str[posi-2]=='['){
 		str[posi-1]='@';
 		posi--;
-	}else if(str[posi]=='^'&&posi>1&&str[posi-2]=='['){
+	}else if(str[posi]=='^'&&posi>1&&(!isdigit(str[posi-2]))&&(!isalpha(str[posi-2]))){
 		str[posi-1]='@';
 		posi--;
 	}else if(str[posi]=='^'&&posi==1){
