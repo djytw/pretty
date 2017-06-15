@@ -43,12 +43,19 @@ void backspace(){
 	}else if(str[posi]==']'&&posi>1&&str[posi-2]=='['){
 		str[posi-1]='@';
 		posi--;
+	}else if(str[posi]=='^'&&posi>1&&str[posi-2]=='['){
+		str[posi-1]='@';
+		posi--;
+	}else if(str[posi]=='^'&&posi==1){
+		str[posi-1]='@';
+		posi--;
 	}else if(str[posi-1]=='#')return;
 	else backspace_char();
 }
 void backspace_pow(){
 	// 1) 123^[456] => 123456  posi:5 => 3  len-=3
 	// 2) 123^[@] => 123 		posi:5 => 3  len-=4
+	// 3) @^[@]2 => 2				posi:3 => 0  len-=5
 	int i;int l=strlen(str);
 	if(str[posi]=='@'){
 		//mode 2
@@ -66,7 +73,8 @@ void backspace_pow(){
 			str[i]=str[i+3];
 		}
 	}
-	if(str[posi-1]=='['&&str[posi]==']'){
+	if(str[posi-1]=='@')backspace_char();
+	if(str[posi-1]=='[' && ( str[posi]==']' || str[posi]=='^' ) ){
 		insert('@');
 		posi--;
 	}
@@ -94,7 +102,7 @@ void backspace_frac(){
 			str[i]=str[i+5];
 		}
 	}
-	if(str[posi-1]=='['&&str[posi]==']'){
+	if(str[posi-1]=='[' && ( str[posi]==']' || str[posi]=='^' ) ){
 		insert('@');
 		posi--;
 	}

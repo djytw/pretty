@@ -78,7 +78,7 @@ void gui(){
             cursorimg=0;
             map=parse(0,strlen(str),1);
             if(cursorimg){
-               debug(4,"CURSOR","X:%d Y:%d H:%d\tfinal:%p curimg:%p",cursorx,cursory,cursorh,map,cursorimg);
+               debug(4,"CURSOR","\t\tX:%d Y:%d H:%d",cursorx,cursory,cursorh);
                int i;if(cursorx>0)cursorx--;
          		for(i=0;i<cursorh&&cursory+i<map->h;i++){
          			map->data[cursory+i][cursorx]=0x88;
@@ -167,7 +167,12 @@ int key(SDL_Keysym k){
       return 0;
    }
    if(keycode==SDLK_F2||mod&KMOD_SHIFT&&keycode=='6'){//power
-      insert("^[@]");
+      if(str[posi]=='@' || posi==0 ||
+         ( (!isdigit(str[posi-1]))&&(!isalpha(str[posi-1])) )
+      )
+         insert("@^[@]");
+      else
+         insert("^[@]");
       pos_shift(-2);
       debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;

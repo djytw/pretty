@@ -34,7 +34,7 @@ int ttype(char c){
 img* cursorimg=0;
 int cursorx,cursory,cursorh;
 img* parse_int(int start, int end, bool bigfont){
-	int i,j,l,count;
+	int i,j,l,count,it;
 	img *final,*buf, *t, *_t;
 	final=blit_createimg(0,0);//TODO -- malloc(0)??
 	if(start==end)return final;
@@ -90,6 +90,7 @@ img* parse_int(int start, int end, bool bigfont){
 		case CBRAC:
 			// must be []/[] now, and buf=nil?
 			count=0;
+			it=i;
 			for(j=i;;j++){
 				if(str[j]=='[')count++;
 				if(str[j]==']')count--;
@@ -104,6 +105,9 @@ img* parse_int(int start, int end, bool bigfont){
 			}//denominator
 			_t=parse_int(i+1,j,bigfont);
 			buf=blit_con_f(buf,blit_frac_f(t,_t));
+			if(posi==it){
+				cursory=buf->base>0?buf->base:0;
+			}
 			i=j;
 			break;
 		case BRACKET:
