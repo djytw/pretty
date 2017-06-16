@@ -111,11 +111,13 @@ img* parse_int(int start, int end, bool bigfont){
 			i=j;
 			break;
 		case BRACKET:
-			count=0;
+			count=0;it=0;
 			//may not paired
 			for(j=i;j<end;j++){
-				if(str[j]=='(')count++;
-				if(str[j]==')')count--;
+				if(str[j]=='[')it++;
+				else if(str[j]==']')it--;
+				else if(it==0&&str[j]=='(')count++;
+				else if(it==0&&str[j]==')')count--;
 				if(!count)break;
 			}
 			// count!=0 -> not paired
