@@ -59,7 +59,7 @@ img* parse_int(int start, int end, bool bigfont){
 	for(i=start;i<end;i++){
 		if(i==posi){
 			cursorx=buf->w;
-			cursory=buf->base>0?buf->base:0;
+			cursory=buf->base;
 			cursorh=bigfont?12:9;
 			cursorimg=buf;
 			debug(2,"CURSOR","Cursor generated. Initial position: x:%d y:%d h:%d curimg=%p(w%d,h%d,b%d)",cursorx,cursory,cursorh,cursorimg,cursorimg->w,cursorimg->h,cursorimg->base);
@@ -106,7 +106,7 @@ img* parse_int(int start, int end, bool bigfont){
 			_t=parse_int(i+1,j,bigfont);
 			buf=blit_con_f(buf,blit_frac_f(t,_t));
 			if(posi==it){
-				cursory=buf->base>0?buf->base:0;
+				cursory=buf->base;
 			}
 			i=j;
 			break;
@@ -133,7 +133,7 @@ img* parse_int(int start, int end, bool bigfont){
 	}
 	if(i==posi){
 		cursorx=buf->w;
-		cursory=buf->base>0?buf->base:0;
+		cursory=buf->base;
 		cursorh=bigfont?12:9;
 		cursorimg=buf;
 		debug(2,"CURSOR","Cursor generated. Initial position: x:%d y:%d curimg=%p",cursorx,cursory,cursorimg);

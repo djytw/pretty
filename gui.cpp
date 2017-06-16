@@ -80,7 +80,7 @@ void gui(){
             if(cursorimg){
                debug(4,"CURSOR","\t\tX:%d Y:%d H:%d",cursorx,cursory,cursorh);
                int i;if(cursorx>0)cursorx--;
-         		for(i=0;i<cursorh&&cursory+i<map->h;i++){
+         		for(i=max(-cursory,0);i<cursorh&&cursory+i<map->h;i++){
          			map->data[cursory+i][cursorx]=0x88;
          		}
             }

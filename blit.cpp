@@ -70,6 +70,7 @@ img* blit_con(img* a, img* b){
 	return blit_con(a,b,0);
 }
 img* blit_con(img* a, img* b, int offset){
+	debug(1,"blit_con","a:%p(w%d,h%d,base%d) b:%p(w%d,h%d,base%d) offset%d",a,a->w,a->h,a->base,b,b->w,b->h,b->base,offset);
 	if(a->w==0||a->h==0){
 		int base=b->base;
 		int h=b->h;
@@ -78,6 +79,7 @@ img* blit_con(img* a, img* b, int offset){
 		blit_blit(ret,b,0,offset);
 		if(cursorimg==a){
 			cursorimg=ret;
+			cursory+=b->base;
 			debug(2,"CURSOR","Cursor position is not changed: x:%d y:%d h:%d %p(w%d,h%d,b%d)",cursorx,cursory,cursorh,a,a->w,a->h,a->base);
 		}
 		return ret;
