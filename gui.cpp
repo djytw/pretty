@@ -42,7 +42,7 @@ img* font_gen(char c, bool bigfont){
    debug(2,"FONTGEN","\e[33m\e[1mCHAR:\e[0m%c \e[33m\e[1mW:\e[0m%d \e[33m\e[1mH:\e[0m%d \e[33m\e[1mBASE:\e[0m%d",c,ret->w,ret->h,ret->base);
    FT_Done_Face(face);
    FT_Done_FreeType(library);
-   return ret;
+   return blit_expand(ret,(bigfont?17:13));
 }
 void gui(){
    int wi=MIN_WIDTH;
@@ -168,7 +168,7 @@ int key(SDL_Keysym k){
    }
    if(keycode==SDLK_F2||mod&KMOD_SHIFT&&keycode=='6'){//power
       if(str[posi]=='@' || posi==0 ||
-         ( (!isdigit(str[posi-1]))&&(!isalpha(str[posi-1])) )
+         ( (!isdigit(str[posi-1]))&&(!isalpha(str[posi-1])) &&(str[posi-1]!=')')&&str[posi-1]!=']')
       )
          insert("@^[@]");
       else

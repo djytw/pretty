@@ -93,11 +93,11 @@ img* blit_con(img* a, img* b, int offset){
 	return ret;
 }
 img* blit_frac(img* a, img* b){
-	img* ret=blit_createimg(max(a->w,b->w)+2,a->h+b->h+3,a->h-6);
+	img* ret=blit_createimg(max(a->w,b->w)+2,a->h+b->h,a->h-7);
 	blit_blit(ret,a,(ret->w-a->w)/2,0);
-	blit_blit(ret,b,(ret->w-b->w)/2,a->h+3);
+	blit_blit(ret,b,(ret->w-b->w)/2,a->h);
 	int i;
-	for(i=0;i<ret->w;i++)ret->data[a->h+1][i]=0xff;
+	for(i=0;i<ret->w;i++)ret->data[a->h-2][i]=0xff;
 	return ret;
 }
 img* blit_frac_f(img* a, img* b){
@@ -106,8 +106,8 @@ img* blit_frac_f(img* a, img* b){
 	return ret;
 }
 img* blit_power(img* a, img* b){
-	img* ret=blit_createimg(a->w+b->w,a->h+b->h-4,b->h-4+a->base);
-	blit_blit(ret,a,0,b->h-4);
+	img* ret=blit_createimg(a->w+b->w,a->h+b->h-8,b->h-8+a->base);
+	blit_blit(ret,a,0,b->h-8);
 	blit_blit(ret,b,a->w,0);
 	return ret;
 }
@@ -120,6 +120,7 @@ img* blit_bracket_f(img* a, bool bigfont){
 	return blit_bracket_f(a,bigfont,0);
 }
 img* blit_bracket_f(img* a, bool bigfont, bool norbraket){
+	debug(1,"blit_bracket_f","a:%p(w%d,h%d,base%d) big%d nor%d",a,a->w,a->h,a->base,bigfont,norbraket);
 	int h=a->h;int w=bigfont?5:4;
 	img* br=blit_createimg(w,h,0);
 	img* t=font_gen('(',bigfont);
@@ -127,18 +128,18 @@ img* blit_bracket_f(img* a, bool bigfont, bool norbraket){
 	if(bigfont){
 		for(i=0;i<7;i++)for(j=0;j<5;j++){
 			br->data[i][j]=t->data[i][j];
-			br->data[h-2-i][j]=t->data[t->h-2-i][j];
+			br->data[h-1-i][j]=t->data[t->h-1-i][j];
 		}
-		for(i=7;i<h-8;i++){
+		for(i=7;i<h-7;i++){
 			br->data[i][0]=0x55;
 			br->data[i][1]=0xff;
 		}
 	}else{
 		for(i=0;i<4;i++)for(j=0;j<4;j++){
 			br->data[i][j]=t->data[i][j];
-			br->data[h-2-i][j]=t->data[t->h-2-i][j];
+			br->data[h-1-i][j]=t->data[t->h-1-i][j];
 		}
-		for(i=4;i<h-5;i++){
+		for(i=4;i<h-4;i++){
 			br->data[i][0]=0x55;
 			br->data[i][1]=0xaa;
 		}
@@ -159,6 +160,14 @@ img* blit_bracket_f(img* a, bool bigfont, bool norbraket){
 	}
 	blit_blit(ret,br,br->w+a->w,0);
 	blit_freeimg(br);
+	blit_freeimg(a);
+	return ret;
+}
+img* blit_expand(img* a, int h){
+	if(a->h+max(-a->base,0)>=h)return a;
+	int hi=max(h,a->h-a->base+1);
+	img* ret=blit_createimg(a->w,hi);
+	blit_blit(ret,a,0,1-a->base);
 	blit_freeimg(a);
 	return ret;
 }

@@ -80,13 +80,25 @@ void backspace_pow(){
 	}
 }
 void backspace_frac(){
-	// 1) [123]/[456] => 123456	posi: 1=>0	len-=5
-	// 2) 1[@]/[@]2 => 12 			posi: 2=>1	len-=7
+	// 1) [123]/[456] => 123456   posi: 1=>0	len-=5
+	// 2) 1[@]/[@]2 => 12         posi: 2=>1	len-=7
+	// 3) [@]/[222] => 222        posi: 1=>0  len-=6
 	int i;int l=strlen(str);
 	if(str[posi]=='@'){
-		posi--;
-		for(i=posi;i<l-6;i++){
-			str[i]=str[i+7];
+		if(str[posi+4]=='@'){
+			posi--;
+			for(i=posi;i<l-6;i++){
+				str[i]=str[i+7];
+			}
+		}else{
+			posi--;
+			for(i=posi;;i++){
+				if(str[i+5]==']')break;
+				str[i]=str[i+5];
+			}
+			for(;i<l-5;i++){
+				str[i]=str[i+6];
+			}
 		}
 	}else{
 		posi--;
