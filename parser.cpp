@@ -28,7 +28,7 @@ int ttype(char c){
 		case '^':return POWER;
 		case '(':return BRACKET;
 		case '[':return CBRAC;
-		default:return CONST;
+		default:return CCONST;
 	}
 }
 img* cursorimg=0;
@@ -65,7 +65,7 @@ img* parse_int(int start, int end, bool bigfont){
 			debug(2,"CURSOR","Cursor generated. Initial position: x:%d y:%d h:%d curimg=%p(w%d,h%d,b%d)",cursorx,cursory,cursorh,cursorimg,cursorimg->w,cursorimg->h,cursorimg->base);
 		}
 		switch(ttype(str[i])){
-		case CONST:
+		case CCONST:
 			buf=blit_con_f(buf,font_gen(str[i],bigfont));
 			break;
 		case OPER:

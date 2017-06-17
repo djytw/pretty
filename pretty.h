@@ -1,7 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+
 #ifndef __PRETTY_H__
 #define __PRETTY_H__
+
+#ifdef WIN32
+#include <wchar.h>
+#include <windows.h>
+#endif
 
 /********            STRUCT           ********/
 typedef struct img {
@@ -69,7 +76,7 @@ extern int DEBUG;
 #define MIN_WIDTH 400
 #define MIN_HEIGHT 200
 #define NUMBER 0 //?
-#define CONST 1
+#define CCONST 1
 #define OPER 2
 #define OPERM 3//?
 #define POWER 4

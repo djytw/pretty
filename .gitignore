@@ -2,6 +2,8 @@ bin/*
 trash/*
 pretty
 *.o
+*.exe
+*.dll
 !.gitignore
 ftdemo
 SDL
