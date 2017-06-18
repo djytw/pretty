@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-img* parse_int(int start, int end, bool bigfont);
+img* parse_int(unsigned int start, unsigned int end, bool bigfont);
 int parser_test(){
-	print(5,"parser_test","Started. Enter a expression and cursor position.");
+	print(6,"parser_test","Started. Enter a expression and cursor position.");
 	cursorimg=0;
 	scanf("%s%d",str,&posi);
 	int l=strlen(str);
@@ -33,8 +33,8 @@ int ttype(char c){
 }
 img* cursorimg=0;
 int cursorx,cursory,cursorh;
-img* parse_int(int start, int end, bool bigfont){
-	int i,j,l,count,it;
+img* parse_int(unsigned int start, unsigned int end, bool bigfont){
+	unsigned int i,j,l,count,it;
 	img *final,*buf, *t, *_t;
 	final=blit_createimg(0,0);//TODO -- malloc(0)??
 	if(start==end)return final;
@@ -47,7 +47,7 @@ img* parse_int(int start, int end, bool bigfont){
 	free(s);
 	/****************************************************************************
 		case const/num , put it to buf
-		case +-/* , put buf to final, then put OPER to final
+		case + - * / , put buf to final, then put OPER to final
 		case ^ , put power(buf,parse) to final
 		case []/[] , put frac(parse1,parse2) to buf
 
@@ -143,7 +143,7 @@ img* parse_int(int start, int end, bool bigfont){
 	final=blit_con_f(final,buf);
 	return final;
 }
-img* parse(int start, int end, bool bigfont){
+img* parse(unsigned int start, unsigned int end, bool bigfont){
 	img* ret;
 	ret=parse_int(start,end,bigfont);
 	/*img* ans=blit_createimg(ret->w,ret->h+3,ret->base+3);

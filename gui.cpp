@@ -16,15 +16,15 @@ img* font_gen(char c, bool bigfont){
    else{size=12;base=9;}
    FT_Init_FreeType(&library);
    FT_Face face;
-   FT_New_Face(library,"OpenSans-Regular.ttf",0,&face);
+   FT_New_Face(library,"font.ttf",0,&face);
    FT_Set_Pixel_Sizes(face,0,size);
    FT_Load_Char(face,c,FT_LOAD_RENDER);
    FT_GlyphSlot slot=face->glyph;
    int i,j,p;
    FT_Bitmap *bitmap=&slot->bitmap;
    img *ret=blit_createimg(slot->advance.x >> 6 ,(slot->bitmap).rows,slot->bitmap_top-base);
-   for(p=0,i=slot->bitmap_left;p<bitmap->width;i++,p++){
-      for(j=0;j<bitmap->rows;j++){
+   for(p=0,i=slot->bitmap_left;p<(int)bitmap->width;i++,p++){
+      for(j=0;j<(int)bitmap->rows;j++){
          if(i<0||j<0||i>=ret->w||j>=ret->h)continue;
          unsigned char a = bitmap->buffer[j*bitmap->width+p];
          //to 2bit gray:
@@ -59,7 +59,7 @@ void gui(){
    SDL_RenderPresent(r);
    SDL_FreeSurface(s);
    SDL_DestroyTexture(t);
-   SDL_Event e; int a=0;
+   SDL_Event e;
    while(1){
       while (SDL_PollEvent(&e)) {
          switch(e.type){
@@ -131,7 +131,7 @@ void gui_draw(img* map){
    SDL_RenderPresent(r);
    SDL_DestroyTexture(t);
    SDL_DestroyRenderer(r);
-   SDL_Event e; int a=0;
+   SDL_Event e;
    while(1){
       while (SDL_PollEvent(&e)) {
          switch(e.type){
@@ -166,7 +166,7 @@ int key(SDL_Keysym k){
       debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;
    }
-   if(keycode==SDLK_F2||mod&KMOD_SHIFT&&keycode=='6'){//power
+   if(keycode==SDLK_F2||(mod&KMOD_SHIFT&&keycode=='6')){//power
       if(str[posi]=='@' || posi==0 ||
          ( (!isdigit(str[posi-1]))&&(!isalpha(str[posi-1])) &&(str[posi-1]!=')')&&str[posi-1]!=']')
       )

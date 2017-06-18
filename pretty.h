@@ -41,7 +41,7 @@ img* blit_expand(img* a, int h);
 //parser.cpp
 int parser_test();
 int ttype(char c);
-img* parse(int start, int end, bool bigfont);
+img* parse(unsigned int start, unsigned int end, bool bigfont);
 //gui.cpp
 void gui();
 void gui_draw(img* map);
@@ -71,7 +71,7 @@ extern img* cursorimg;
 extern int cursorx,cursory,cursorh;
 //global
 extern char str[256];
-extern int posi;
+extern unsigned int posi;
 extern int DEBUG;
 #define MIN_WIDTH 400
 #define MIN_HEIGHT 200

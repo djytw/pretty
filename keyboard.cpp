@@ -12,7 +12,7 @@ void insert(char c){
 	else{
 		int i;
 		str[strlen(str)+1]=0;
-		for(i=strlen(str);i>posi;i--){
+		for(i=strlen(str);i>(int)posi;i--){
 			str[i]=str[i-1];
 		}
 		str[posi]=c;
@@ -20,15 +20,15 @@ void insert(char c){
 	posi++;
 }
 void insert(const char* s){
-	int l=strlen(s);
-	if(str[posi]=='@')l--;
+	unsigned l=strlen(s);
 	int i;
+	if(str[posi]=='@')l--;
 	str[strlen(str)+l]=0;
-	for(i=strlen(str)-1;i>=posi;i--){
+	for(i=strlen(str)-1;i>=(int)posi;i--){
 		str[i+l]=str[i];
 	}
 	l=strlen(s);
-	for(i=0;i<l;i++){
+	for(i=0;i<(int)l;i++){
 		str[posi+i]=s[i];
 	}
 	posi+=l;
@@ -73,8 +73,8 @@ void backspace_pow(){
 			str[i]=str[i+3];
 		}
 	}
-	if(str[posi-1]=='@')backspace_char();
-	if(str[posi-1]=='[' && ( str[posi]==']' || str[posi]=='^' ) ){
+	if(posi>0 && str[posi-1]=='@')backspace_char();
+	if(posi>0 && str[posi-1]=='[' && ( str[posi]==']' || str[posi]=='^' ) ){
 		insert('@');
 		posi--;
 	}
@@ -114,13 +114,13 @@ void backspace_frac(){
 			str[i]=str[i+5];
 		}
 	}
-	if(str[posi-1]=='[' && ( str[posi]==']' || str[posi]=='^' ) ){
+	if(posi>0 && str[posi-1]=='[' && ( str[posi]==']' || str[posi]=='^' ) ){
 		insert('@');
 		posi--;
 	}
 }
 void backspace_char(){
-	int i;
+	unsigned int i;
 	for(i=posi;i<=strlen(str);i++){
 		str[i-1]=str[i];
 	}
@@ -141,8 +141,8 @@ void pos_shift_right(){
 	if(posi>strlen(str))posi=strlen(str);
 }
 void pos_shift_left(){
-	posi--;
-	if(posi<0)posi=0;
+	if(posi>0)posi--;
+	else return;
 	if(str[posi]=='['&&posi>0){
 		switch(str[posi-1]){
 			case '^':posi--;break;
@@ -151,5 +151,5 @@ void pos_shift_left(){
 	}
 	else if(str[posi]=='#')
 			posi++;
-	if(str[posi-1]=='@')posi--;
+	if(posi>0&&str[posi-1]=='@')posi--;
 }
