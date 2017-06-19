@@ -10,7 +10,7 @@ int key(SDL_Keysym k);
 #define KEY_STATUS_ESC -2
 #define KEY_STATUS_REG 0
 
-img* font_gen(char c, bool bigfont){
+img* font_gen_char(char c, bool bigfont){
    int size,base;
    if(bigfont){size=16;base=12;}
    else{size=12;base=9;}
@@ -42,6 +42,23 @@ img* font_gen(char c, bool bigfont){
    debug(2,"FONTGEN","\e[33m\e[1mCHAR:\e[0m%c \e[33m\e[1mW:\e[0m%d \e[33m\e[1mH:\e[0m%d \e[33m\e[1mBASE:\e[0m%d",c,ret->w,ret->h,ret->base);
    FT_Done_Face(face);
    FT_Done_FreeType(library);
+   return blit_expand(ret,(bigfont?17:13));
+}
+img* font_gen(char c, bool bigfont){
+   if(c!='@')return font_gen_char(c,bigfont);
+   int w,h;
+   if(bigfont){w=9;h=12;}
+   else{w=7;h=9;}
+   img* ret=blit_createimg(w,h,0);
+   int i;
+   for(i=1;i<w-1;i++){
+      ret->data[0][i]=0xff;
+      ret->data[h-1][i]=0xff;
+   }
+   for(i=0;i<h;i++){
+      ret->data[i][0]=0xff;
+      ret->data[i][w-2]=0xff;
+   }
    return blit_expand(ret,(bigfont?17:13));
 }
 void gui(){
@@ -80,7 +97,7 @@ void gui(){
             if(cursorimg){
                debug(4,"CURSOR","\t\tX:%d Y:%d H:%d",cursorx,cursory,cursorh);
                int i;if(cursorx>0)cursorx--;
-         		for(i=max(-cursory,0);i<cursorh&&cursory+i<map->h;i++){
+         		for(i=max(-cursory,1);i<1+cursorh&&cursory+i<map->h;i++){
          			map->data[cursory+i][cursorx]=0x88;
          		}
             }

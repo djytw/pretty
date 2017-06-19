@@ -36,7 +36,7 @@ int cursorx,cursory,cursorh;
 img* parse_int(unsigned int start, unsigned int end, bool bigfont){
 	unsigned int i,j,l,count,it;
 	img *final,*buf, *t, *_t;
-	final=blit_createimg(0,0);//TODO -- malloc(0)??
+	final=blit_createimg(0,0);
 	if(start==end)return final;
 	buf=blit_createimg(0,0);
 	l=end-start;
@@ -70,7 +70,7 @@ img* parse_int(unsigned int start, unsigned int end, bool bigfont){
 			break;
 		case OPER:
 			final=blit_con_f(final,buf);
-			buf=blit_createimg(0,0);
+			buf=blit_createimg(1,(bigfont?17:13));
 			final=blit_con_f(final,font_gen(str[i],bigfont),1);
 			break;
 		case POWER:
@@ -84,7 +84,7 @@ img* parse_int(unsigned int start, unsigned int end, bool bigfont){
 			}
 			t=parse_int(i+1,j,0);
 			final=blit_con_f(final,blit_power_f(buf,t));
-			buf=blit_createimg(0,0);
+			buf=blit_createimg(1,(bigfont?17:13));
 			i=j;
 			break;
 		case CBRAC:
