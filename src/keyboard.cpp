@@ -92,8 +92,8 @@ void backspace_frac(){
 	// 2) 1[@]/[@]2 => 12         posi: 2=>1	len-=7
 	// 3) [@]/[222] => 222        posi: 1=>0  len-=6
 	int i;int l=strlen(str);int count;
-	if(str[posi]=='@'){
-		if(str[posi+4]=='@'){
+	if(str[posi]=='@'&&str[posi+1]==']'){
+		if(str[posi+1]==']'&&str[posi+2]=='/'&&str[posi+3]=='['&&str[posi+4]=='@'&&str[posi+4]=='@'&&str[posi+5]==']'){
 			posi--;
 			for(i=posi;i<l-6;i++){
 				str[i]=str[i+7];
@@ -123,16 +123,22 @@ void backspace_frac(){
 			str[i]=str[i+1];
 		}
 		count=1;
-		for(;;i++){
-			if(str[i+4]=='[')count++;
-			else if(str[i+4]==']'){
-				count--;
-				if(!count)break;
+		if(str[i+4]=='@'&&str[i+5]==']'){
+			for(;i<l-5;i++){
+				str[i]=str[i+6];
 			}
-			str[i]=str[i+4];
-		}
-		for(;i<l-4;i++){
-			str[i]=str[i+5];
+		}else{
+			for(;;i++){
+				if(str[i+4]=='[')count++;
+				else if(str[i+4]==']'){
+					count--;
+					if(!count)break;
+				}
+				str[i]=str[i+4];
+			}
+			for(;i<l-4;i++){
+				str[i]=str[i+5];
+			}
 		}
 	}
 	if(posi>0 && str[posi-1]=='[' && ( str[posi]==']' || str[posi]=='^' ) ){

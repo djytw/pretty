@@ -41,6 +41,7 @@ ifneq ($(SYS),$(LINUX))
 endif
 	@$(PRINTF) "\e[0m\e[K"
 	@cd src; make;
+	@make run
 
 .PHONY : clean run
 clean :
