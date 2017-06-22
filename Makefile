@@ -42,8 +42,10 @@ endif
 	@$(PRINTF) "\e[0m\e[K"
 	@cd src; make;
 
-.PHONY : clean
+.PHONY : clean run
 clean :
 	@$(PRINTF) "\e[0;$(color_cmd)m\e[K"
 	-rm -f -r src/build/ output/
 	@$(PRINTF) "\e[0m\e[K"
+run :
+	@cd output;./pretty
