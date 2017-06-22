@@ -1,41 +1,49 @@
-objects = $(patsubst %.cpp,build/%.o,$(wildcard *.cpp))
-executable = output/pretty
-INCLUDE = . /usr/include/freetype2
-CFLAGS = -g -Wall
-LIBS = SDL2 freetype
-CC = g++
+export exec = output/pretty
+export INCLUDE = . /usr/include/freetype2
+export CFLAGS = -g -Wall
+export LIBS = SDL2 freetype
+export CC = g++
+export PRINTF = /usr/bin/printf
+export font_file = OpenSans-Regular.ttf
 
-all : $(executable)
-build/keyboard.o : keyboard.h
-
-color_gcc = 36
-color_log = 35
-color_cmd = 32
-color_link = 33
-
-font_file = OpenSans-Regular.ttf
-
-$(executable) : $(objects)
-	@/usr/bin/printf "\e[0;$(color_link)m"
-	@echo "$(CC) -o $(executable) $(objects) $(patsubst %,-l%,$(LIBS))"
-	@/usr/bin/printf "\e[0;$(color_log)m\e[K"
-	@$(CC) -o $(executable) $(objects) $(patsubst %,-l%,$(LIBS))
-	@/usr/bin/printf "\e[0;$(color_cmd)m\e[K"
-	cat res/$(font_file) > output/font.ttf
-	cat res/SDL2.dll > output/SDL2.dll
-	@/usr/bin/printf "\e[0m\e[K"
-
-$(objects) : build/%.o : %.cpp pretty.h
-	@if [ ! -d "output" ];then mkdir output; fi
-	@if [ ! -d "build" ];then mkdir build; fi
-	@/usr/bin/printf "\e[0;$(color_gcc)m"
-	@echo "$(CC) -c $< -o $@ $(patsubst %,-I%,$(INCLUDE)) $(CFLAGS)"
-	@/usr/bin/printf "\e[0;$(color_log)m\e[K"
-	@$(CC) -c $< -o $@ $(patsubst %,-I%,$(INCLUDE)) $(CFLAGS)
-	@/usr/bin/printf "\e[0m\e[K"
+SYS := $(shell uname -s)
+LINUX := Linux
+ifeq ($(SYS),$(LINUX))
+  export color_gcc=46
+  export color_log=45
+  export color_cmd=42
+  export color_link=43
+else
+  export color_gcc=36
+  export color_log=35
+  export color_cmd=32
+  export color_link=33
+endif
+all :
+	@$(PRINTF) "\e[0;$(color_cmd)m\e[K"
+	@if [ ! -d "output" ];then\
+		$(PRINTF) "mkdir output...\n";\
+		mkdir output;\
+	fi
+	@if [ ! -d "src/build" ];then\
+		$(PRINTF) "mkdir src/build...\n";\
+		mkdir src/build;\
+	fi
+	@if [ ! -f "output/font.ttf" ];then\
+		$(PRINTF) "copy font file...\n";\
+		cat res/$(font_file) > output/font.ttf;\
+	fi
+ifneq ($(SYS),$(LINUX))
+	@if [ ! -f "output/SDL2.dll" ];then\
+		$(PRINTF) "copy SDL Library...\n";\
+		cat res/SDL2.dll > output/SDL2.dll;\
+	fi
+endif
+	@$(PRINTF) "\e[0m\e[K"
+	@cd src; make;
 
 .PHONY : clean
 clean :
-	@/usr/bin/printf "\e[0;$(color_cmd)m\e[K"
-	-rm -f build/* output/pretty
-	@/usr/bin/printf "\e[0m\e[K"
+	@$(PRINTF) "\e[0;$(color_cmd)m\e[K"
+	-rm -f -r src/build/ output/
+	@$(PRINTF) "\e[0m\e[K"
