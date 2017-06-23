@@ -65,6 +65,8 @@ void pos_shift(int pos);
 void pos_shift_left();
 void pos_shift_right();
 
+//UI.cpp
+void UI_test();
 /********        GLOBAL VARIBLES      ********/
 //cursor
 extern img* cursorimg;

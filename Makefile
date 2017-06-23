@@ -3,7 +3,7 @@ export INCLUDE = . /usr/include/freetype2
 export CFLAGS = -g -Wall
 export LIBS = SDL2 freetype
 export CC = g++
-export PRINTF = /usr/bin/printf
+export PRINTF = "/usr/bin/printf"
 export font_file = OpenSans-Regular.ttf
 
 SYS := $(shell uname -s)

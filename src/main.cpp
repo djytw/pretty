@@ -18,9 +18,20 @@ int main(int argc, char** argv){
    print(5,"START","      (c) 2015-2017 djytw     ");
 	print(5,"START"," ");
    if(argc>2)setdebug(argv[2][0]-'0');
-   if(argc>1&&argv[1][0]=='d'){
-      while(1)parser_test();
-   }
-   else gui();
+	if(argc>1){
+		switch (argv[1][0]) {
+			case 'd':
+		      while(1)parser_test();break;
+			case 'g':
+				gui();break;
+			case 'u':
+				UI_test();break;
+			default:
+				print(7,"ERROR","Unrecognized command: %s",argv[1]);
+		}
+	}else{
+		gui();
+	}
+
    return 0;
 }
