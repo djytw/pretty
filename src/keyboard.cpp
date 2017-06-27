@@ -165,7 +165,7 @@ void pos_shift_right(){
 		case '#':return;
 	}
 	posi++;
-	if(posi>strlen(str))posi=strlen(str);
+	if(posi>(int)strlen(str))posi=strlen(str);
 }
 void pos_shift_left(){
 	if(posi>0)posi--;

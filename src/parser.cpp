@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-img* parse_int(unsigned int start, unsigned int end, bool bigfont);
+
+img* parse_int(int start, int end, bool bigfont);
+int get_function(int start, int end);
 int parser_test(){
 	print(6,"parser_test","Started. Enter a expression and cursor position.");
 	cursorimg=0;
@@ -33,8 +35,8 @@ int ttype(char c){
 }
 img* cursorimg=0;
 int cursorx,cursory,cursorh;
-img* parse_int(unsigned int start, unsigned int end, bool bigfont){
-	unsigned int i,j,l,count,it;
+img* parse_int(int start, int end, bool bigfont){
+	int i,j,l,count,it;
 	img *final,*buf, *t, *_t;
 	final=blit_createimg(0,0);
 	if(start==end)return final;
@@ -105,13 +107,17 @@ img* parse_int(unsigned int start, unsigned int end, bool bigfont){
 			}//denominator
 			_t=parse_int(i+1,j,bigfont);
 			buf=blit_con_f(buf,blit_frac_f(t,_t));
-			if(posi==it){
+			if(it==posi){
 				cursory=buf->base;
 			}
 			i=j;
 			break;
 		case BRACKET:
 			count=0;it=0;
+			if(i>0){
+				for(j=i-1;j>=0&&isalpha(str[j]);j--);
+				if(j<i-1)get_function(j+1,i-1);
+			}
 			//may not paired
 			for(j=i;j<end;j++){
 				if(str[j]=='[')it++;
@@ -143,9 +149,32 @@ img* parse_int(unsigned int start, unsigned int end, bool bigfont){
 	final=blit_con_f(final,buf);
 	return final;
 }
-img* parse(unsigned int start, unsigned int end, bool bigfont){
+#define FUNCTION_NAME_MAX 32
+const char function_names[][FUNCTION_NAME_MAX]={
+	"sqrt",
+	"integrate"
+};
+int get_function(int start, int end){
+	debug(1,"GET_FUNCTION","start=%d end=%d",start,end);
+	int i;
+	char t[FUNCTION_NAME_MAX];
+	if(end-start+1>FUNCTION_NAME_MAX)return -1;
+	int count=sizeof(function_names)/FUNCTION_NAME_MAX;
+	strncpy(t,&str[start],end-start+1);
+	t[end-start+1]=0;
+	debug(1,"GET_FUNCTION","%s",t);
+	for(i=0;i<count;i++){
+		if(!strcmp(t,function_names[i])){
+			print(1,"GET_FUNCTION","fonud: %d",i);
+			return i;
+		}
+	}
+	return -1;
+}
+img* parse(){
 	img* ret;
-	ret=parse_int(start,end,bigfont);
+	int l=strlen(str);
+	ret=parse_int(0,l,1);
 	/*img* ans=blit_createimg(ret->w,ret->h+3,ret->base+3);
 	blit_blit(ans,ret,0,3);
 	blit_freeimg(ret);

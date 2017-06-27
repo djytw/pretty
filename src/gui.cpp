@@ -39,7 +39,7 @@ void gui(){
             if(keystatus==-1)break;
             blit_freeimg(map);
             cursorimg=0;
-            map=parse(0,strlen(str),1);
+            map=parse();
             if(cursorimg){
                debug(4,"CURSOR","\t\tX:%d Y:%d H:%d",cursorx,cursory,cursorh);
                int i;if(cursorx>0)cursorx--;

@@ -1,7 +1,7 @@
 #include "pretty.h"
 
 char str[256];
-unsigned int posi;
+int posi;
 int main(int argc, char** argv){
 
 #ifdef WIN32
@@ -14,7 +14,7 @@ int main(int argc, char** argv){
 
    setdebug(4);
 	print(5,"START"," ");
-   print(5,"START","   --  DJYTW PrettyMath 0.3  --  ");
+   print(5,"START","   --  DJYTW PrettyMath 0.4  --  ");
    print(5,"START","      (c) 2015-2017 djytw     ");
 	print(5,"START"," ");
    if(argc>2)setdebug(argv[2][0]-'0');
