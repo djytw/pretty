@@ -191,6 +191,12 @@ int key(SDL_Keysym k){
       debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
       return 0;
    }
+	if(keycode==SDLK_F3){//sqrt
+		insert("sqrt[@]");
+		pos_shift(-2);
+		debug(4,"INPUT","str=\e[32m\e[1m%s\e[0m posi=%d",str,posi);
+		return 0;
+	}
    if(keycode==SDLK_F2||(mod&KMOD_SHIFT&&keycode=='6')){//power
       if(str[posi]=='@' || posi==0 ||
          ( (!isdigit(str[posi-1]))&&(!isalpha(str[posi-1])) &&(str[posi-1]!=')')&&str[posi-1]!=']')
