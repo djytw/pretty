@@ -37,6 +37,8 @@ img* blit_power(img* a, img* b);
 img* blit_power_f(img* a, img* b);
 img* blit_bracket_f(img* a, bool bigfont);
 img* blit_bracket_f(img* a, bool bigfont, bool norbraket);
+img* blit_sqrt(img* a);
+img* blit_sqrt_f(img* a);
 img* blit_expand(img* a, int h);
 //parser.cpp
 int parser_test();

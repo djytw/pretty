@@ -163,6 +163,27 @@ img* blit_bracket_f(img* a, bool bigfont, bool norbraket){
 	blit_freeimg(a);
 	return ret;
 }
+img* blit_sqrt_f(img* a){
+	img* ret=blit_sqrt(a);
+	blit_freeimg(a);
+	return ret;
+}
+img* blit_sqrt(img* a){
+	int w,h,base;
+	h=a->h+3;
+	base=a->base+2;
+	w=a->w+5;
+	img* ret;
+	ret=blit_createimg(w,h,base);
+	blit_blit(ret,a,5,2);
+	int i;
+	for(i=3;i<w;i++)ret->data[0][i]=0xff;
+	for(i=1;i<(h-4)/2;i++)ret->data[i][3]=0xff;
+	for(i=(h-4)/2;i<h-3;i++)ret->data[i][2]=0xff;
+	ret->data[h-5][1]=0xff;
+	ret->data[h-6][0]=0xff;
+	return ret;
+}
 img* blit_expand(img* a, int h){
 	if(a->h+max(-a->base,0)>=h)return a;
 	int hi=max(h,a->h-a->base+1);

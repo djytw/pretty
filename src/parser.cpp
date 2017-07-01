@@ -113,30 +113,52 @@ img* parse_int(int start, int end, bool bigfont){
 			i=j;
 			break;
 		case BRACKET:
-			count=0;it=0;
-			if(i>0){
-				for(j=i-1;j>=0&&isalpha(str[j]);j--);
-				if(j<i-1)get_function(j+1,i-1);
+			{
+				count=0;it=0;
+				int func=-1;
+				if(i>0){
+					for(j=i-1;j>=0&&(isalpha(str[j])||str[j]==']');j--);
+					if(j<i-1)func=get_function(j+1,i-1);
+				}
+				//may not paired
+				for(j=i;j<end;j++){
+					if(str[j]=='[')it++;
+					else if(str[j]==']')it--;
+					else if(it==0&&str[j]=='(')count++;
+					else if(it==0&&str[j]==')')count--;
+					if(!count)break;
+				}
+				if(func==-1){
+					// bracket
+					// count!=0 -> not paired
+					if(j==i+1){
+						// j=i+1 no contents
+						buf=blit_con_f(buf,font_gen(str[i],bigfont));
+						break;
+					}
+					t=parse_int(i+1,j,bigfont);
+					if(count)buf=blit_con_f(buf,blit_bracket_f(t,bigfont,1));
+					else buf=blit_con_f(buf,blit_bracket_f(t,bigfont));
+					i=j;
+					break;
+				}else{
+					//function
+					switch(func){
+						case 0:
+						if(j==i+1){
+							// j=i+1 no contents
+							buf=blit_sqrt_f(font_gen('@',bigfont));
+							break;
+						}
+						t=parse_int(i+1,j,bigfont);
+						// count!=0 -> not paired
+						if(count)buf=blit_con_f(buf,blit_bracket_f(t,bigfont,1));
+						else buf=blit_con_f(buf,blit_bracket_f(t,bigfont));
+						i=j;
+						break;
+					}
+				}
 			}
-			//may not paired
-			for(j=i;j<end;j++){
-				if(str[j]=='[')it++;
-				else if(str[j]==']')it--;
-				else if(it==0&&str[j]=='(')count++;
-				else if(it==0&&str[j]==')')count--;
-				if(!count)break;
-			}
-			// count!=0 -> not paired
-			// AND j=i+1 no contents
-			if(j==i+1){
-				buf=blit_con_f(buf,font_gen(str[i],bigfont));
-				break;
-			}
-			t=parse_int(i+1,j,bigfont);
-			if(count)buf=blit_con_f(buf,blit_bracket_f(t,bigfont,1));
-			else buf=blit_con_f(buf,blit_bracket_f(t,bigfont));
-			i=j;
-			break;
 		}
 	}
 	if(i==posi){
